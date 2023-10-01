@@ -112,7 +112,8 @@ void testCorrectness()
 
 void test_speed(){
   //@todo vector 大小会有限制吗？
-  {
+  { 
+    std::cout << "data size:(4,480*360) * (480*360, 512)" << std::endl;
     std::vector<float> m1(4*480*360);
     std::vector<float> m2(4*480*360*512);
 
@@ -122,12 +123,62 @@ void test_speed(){
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
   }
+
+  { 
+    std::cout << "data size:(4,240*180) * (240*180, 256)" << std::endl;
+    std::vector<float> m1(4*240*180);
+    std::vector<float> m2(4*240*180*256);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto output = dot(m1, m2, 4, 240*180, 256);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
+  }
+
+  { 
+    std::cout << "data size:(4,120*90) * (120*90, 128)" << std::endl;
+    std::vector<float> m1(4*120*90);
+    std::vector<float> m2(4*120*90*128);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto output = dot(m1, m2, 4, 120*90, 128);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
+  }
+
+  { 
+    std::cout << "data size:(128,27*27) * (27*27, 128)" << std::endl;
+    std::vector<float> m1(128*27*27);
+    std::vector<float> m2(128*27*27*128);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto output = dot(m1, m2, 4, 27*27, 128);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
+  }
+
+  { 
+    std::cout << "data size:(1,10*10) * (10*10, 1)" << std::endl;
+    std::vector<float> m1(1*10*10);
+    std::vector<float> m2(1*10*10*1);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i =0; i<100000; i++)
+      auto output = dot(m1, m2, 1, 10*10, 1);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Function took " << duration.count()/100000.0 << " microseconds" << std::endl;
+  }
+
+
 };
 
 int main(int argc, char **argv)
 {
   testCorrectness();
-
   
   test_speed();
 
