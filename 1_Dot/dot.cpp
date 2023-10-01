@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <iomanip>
+#include <chrono>
 
 std::vector<float> dot(std::vector<float> &m1, std::vector<float> &m2, int m1_rows, int m1_cols, int m2_cols)
 {
@@ -43,7 +44,7 @@ void print_m(std::vector<float> m, int rows, int cols)
   }
 }
 
-void test(std::vector<float> &m1, std::vector<float> &m2)
+bool test(std::vector<float> &m1, std::vector<float> &m2)
 {
 
   // check the result
@@ -53,7 +54,7 @@ void test(std::vector<float> &m1, std::vector<float> &m2)
   if (m1.size() != m2.size())
   {
     std::cout << "m1 size:" << m1.size() << " but m2 size:" << m2.size() << std::endl;
-    return;
+    return false;
   }
 
   for (size_t i = 0; i < m1.size(); i++)
@@ -61,11 +62,13 @@ void test(std::vector<float> &m1, std::vector<float> &m2)
     if (m1[i] != m2[i])
     {
       std::cout << "m1[" << i << "](" << m1[i] << ") != m2[" << i << "](" << m2[i] << ")" << std::endl;
+      return false;
     }
   }
+  return true;
 }
 
-int main(int argc, char **argv)
+void testCorrectness()
 {
   {
     std::vector<float> m1 = {1, 2, 3};
@@ -78,7 +81,7 @@ int main(int argc, char **argv)
     test(m1m2, output);
   }
   {
-    std::vector<float> m1 = {1, 2, 
+    std::vector<float> m1 = {1, 2,
                              3, 4};
 
     std::vector<float> m2 = {1, 2,
@@ -91,19 +94,42 @@ int main(int argc, char **argv)
     test(m1m2, output);
   }
   {
-    std::vector<float> m1 = {1, 2, 3, 
+    std::vector<float> m1 = {1, 2, 3,
                              4, 5, 6};
 
-    std::vector<float> m2 = {1,2,
-                             3,4,
-                             5,6};
+    std::vector<float> m2 = {1, 2,
+                             3, 4,
+                             5, 6};
 
-    std::vector<float> m1m2 = {22, 28, 
+    std::vector<float> m1m2 = {22, 28,
                                49, 64};
 
     auto output = dot(m1, m2, 2, 3, 2);
     test(m1m2, output);
   }
+}
+
+
+void test_speed(){
+  //@todo vector 大小会有限制吗？
+  {
+    std::vector<float> m1(4*480*360);
+    std::vector<float> m2(4*480*360*512);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    auto output = dot(m1, m2, 4, 480*360, 512);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
+  }
+};
+
+int main(int argc, char **argv)
+{
+  testCorrectness();
+
+  
+  test_speed();
 
   return 0;
 }
