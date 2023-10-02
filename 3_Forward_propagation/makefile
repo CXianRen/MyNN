@@ -23,7 +23,7 @@ $(EXEC): $(OBJS)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-run: $(EXEC)
+run: all
 	./$(EXEC)
 
 
