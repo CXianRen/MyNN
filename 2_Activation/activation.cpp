@@ -6,7 +6,7 @@
 
 std::vector<float> softmax(std::vector<float> &m1, int rows, int cols)
 {
-  std::vector<float> output(rows * cols);
+  std::vector<float> output(m1.size());
   float max_x = 0;
   float exp_sum = 0;
   for (size_t i = 0; i < m1.size(); i += cols)
@@ -26,6 +26,16 @@ std::vector<float> softmax(std::vector<float> &m1, int rows, int cols)
     }
   }
   return output;
+}
+
+
+std::vector<float> relu(std::vector<float> &m1){
+    // 
+    std::vector<float> output(m1.size());
+    for(size_t i=0; i<m1.size();i++){
+      output[i] = m1[i]<0.f?0.f:m1[i];
+    }
+    return output;
 }
 
 void print_m(std::vector<float> m, int rows, int cols)
@@ -89,9 +99,23 @@ void test_softmax()
   }
 }
 
+
+void test_reul(){
+  {
+    std::vector<float> m1={0.f, -0.1f, 1.0f};
+    std::vector<float> r ={0.f,0.f,1.0f};
+    auto y =relu(m1);
+    test(y,r);
+  }
+
+}
+
+
 int main(int argc, char **argv)
 {
   std::cout << "test softmax" << std::endl;
   test_softmax();
+  std::cout << "test relu" << std::endl;
+  test_reul();
   return 0;
 }
