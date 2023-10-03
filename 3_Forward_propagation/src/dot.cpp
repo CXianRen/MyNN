@@ -1,7 +1,7 @@
 #include "../inc/deep_core.hpp"
 #include <vector>
 
-std::vector<float> dot(std::vector<float> &m1, std::vector<float> &m2, int m1_rows, int m1_cols, int m2_cols)
+std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m2,const int m1_rows, const int m1_cols, const int m2_cols)
 {
   // Returns the product of two matrices: m1 (N,M) x m2 (M,K).
   // m1: left matrix, size (m1_ros * m1_cols)

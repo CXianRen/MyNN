@@ -2,7 +2,7 @@
 #include <cmath>
 #include <algorithm>
 
-std::vector<float> softmax(std::vector<float> &m1, int rows, int cols)
+std::vector<float> softmax(const std::vector<float> &m1, const int rows, const int cols)
 {
   std::vector<float> output(m1.size());
   float max_x = 0;
@@ -26,7 +26,7 @@ std::vector<float> softmax(std::vector<float> &m1, int rows, int cols)
   return output;
 }
 
-std::vector<float> relu(std::vector<float> &m1)
+std::vector<float> relu(const std::vector<float> &m1)
 {
   //
   std::vector<float> output(m1.size());

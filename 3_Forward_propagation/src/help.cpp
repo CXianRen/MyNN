@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-void print_m(std::vector<float> m, int rows, int cols)
+void print_m(const std::vector<float> m, const int rows, const int cols)
 {
   std::cout << "matrix: " << rows << "," << cols << std::endl;
   for (int i = 0; i < rows; i++)
@@ -16,7 +16,7 @@ void print_m(std::vector<float> m, int rows, int cols)
   }
 }
 
-bool test(std::vector<float> &m1, std::vector<float> &m2)
+bool test(const std::vector<float> &m1, const std::vector<float> &m2)
 {
 
   // check the result
