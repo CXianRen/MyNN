@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <chrono>
 #include <iostream>
+#include <random>
 
 void print_m(const std::vector<float> m, const int rows, const int cols)
 {
@@ -38,4 +39,13 @@ bool test(const std::vector<float> &m1, const std::vector<float> &m2)
     }
   }
   return true;
+}
+
+
+void random_init_layer(std::vector<float> & layer){
+  std::mt19937 mt(69);
+  std::uniform_real_distribution<float> dist(0,1);
+  for(size_t i = 0 ; i <layer.size(); i++){
+    layer[i] = dist(mt);
+  }
 }

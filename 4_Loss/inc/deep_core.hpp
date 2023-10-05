@@ -8,5 +8,10 @@ std::vector<float> softmax(const std::vector<float> &m1, const int rows, const i
 std::vector<float> relu(const std::vector<float> &m1);
 
 /* Loss function */
-float Loss_MSE(std::vector<float> y, std::vector<float> yp);
+float Loss_MSE(const std::vector<float> y, const std::vector<float> yp);
+
+
+/* network helper*/
+void random_init_layer(std::vector<float> & layer);
+
 #endif
