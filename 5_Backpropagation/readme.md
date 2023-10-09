@@ -48,67 +48,69 @@ y=f(x)= ax+b 为例子， $\frac{dy}{dx} = f'(x) = a $
 
 这里的网络运算可表达为:
 ```math
-
-
-\begin{pmatrix}
-x1 & x2 \\
-\end{pmatrix}  
-*
-\begin{pmatrix}
-w_{11} & w_{21} \\
-w_{12} & w_{22} \\
-\end{pmatrix}
-=
-\begin{pmatrix}
-x_1*w_{11}+ x_2*w_{12} &  x_1*w_{21}+x_2*w_{12} \\
-\end{pmatrix} 
-=
-\begin{pmatrix}
-h_{11} &  h_{12} \\
-\end{pmatrix}
+\begin{align}
+  \begin{pmatrix}
+  x1 & x2 \\
+  \end{pmatrix}  
+  *
+  \begin{pmatrix}
+  w_{11} & w_{21} \\
+  w_{12} & w_{22} \\
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  x_1*w_{11}+ x_2*w_{12} &  x_1*w_{21}+x_2*w_{12} \\
+  \end{pmatrix} 
+  =
+  \begin{pmatrix}
+  h_{11} &  h_{12} \\
+  \end{pmatrix}
+\end{align}
 ```
 同理 完整过程
 ``` math
-\begin{pmatrix}
-x1 & x2 \\
-\end{pmatrix}  
-\begin{pmatrix}
-w_{11} & w_{21} \\
-w_{12} & w_{22} \\
-\end{pmatrix}
-->
-\begin{pmatrix}
-h_{11} &  h_{12} \\
-\end{pmatrix}
--> \\  
-\begin{pmatrix}
-a_{11} &  a_{12} \\
-\end{pmatrix}
+\begin{align}
+  \begin{pmatrix}
+  x1 & x2 \\
+  \end{pmatrix}  
+  \begin{pmatrix}
+  w_{11} & w_{21} \\
+  w_{12} & w_{22} \\
+  \end{pmatrix}
+  &->
+  \begin{pmatrix}
+  h_{11} &  h_{12} \\
+  \end{pmatrix}
+  -> \\  
+  \begin{pmatrix}
+  a_{11} &  a_{12} \\
+  \end{pmatrix}
 
-\begin{pmatrix}
-w_{211} & w_{221} \\
-w_{212} & w_{222} \\
-\end{pmatrix}
-->
-\begin{pmatrix}
-h_{21} &  h_{22} \\
-\end{pmatrix}
--> \\
-\begin{pmatrix}
-a_{21} &  a_{22} \\
-\end{pmatrix}
-\begin{pmatrix}
-w_{311} & w_{321} \\
-w_{312} & w_{322} \\
-\end{pmatrix}
-->
-\begin{pmatrix}
-h_{31} &  h_{32} \\
-\end{pmatrix}
-->\\
-\begin{pmatrix}
-y_{1} &  y_{2} \\
-\end{pmatrix}
+  \begin{pmatrix}
+  w_{211} & w_{221} \\
+  w_{212} & w_{222} \\
+  \end{pmatrix}
+  &->
+  \begin{pmatrix}
+  h_{21} &  h_{22} \\
+  \end{pmatrix}
+  -> \\
+  \begin{pmatrix}
+  a_{21} &  a_{22} \\
+  \end{pmatrix}
+  \begin{pmatrix}
+  w_{311} & w_{321} \\
+  w_{312} & w_{322} \\
+  \end{pmatrix}
+  &->
+  \begin{pmatrix}
+  h_{31} &  h_{32} \\
+  \end{pmatrix}
+  ->
+  \begin{pmatrix}
+  y_{1} &  y_{2} \\
+  \end{pmatrix}
+\end{align}
 ```
 
 ### 以y1 和 y2开始反向传播，
@@ -141,10 +143,12 @@ $w_{322}$ 对 L 的影响
 
 那么 上面 第三次的参数 $W_3$ 对 L的影响可以重写成
 ```math 
-dw_{311} = a_{21} * \Delta{y_1} \\  
-dw_{312} = a_{22} * \Delta{y_1} \\  
-dw_{321} = a_{21} * \Delta{y_2} \\  
-dw_{322} = a_{22} * \Delta{y_1} \\  
+\begin{align}
+dw_{311} &= a_{21} * \Delta{y_1} \\  
+dw_{312} &= a_{22} * \Delta{y_1} \\  
+dw_{321} &= a_{21} * \Delta{y_2} \\  
+dw_{322} &= a_{22} * \Delta{y_1} \\  
+\end{align}
 ```
 将$dw 按 W_3 的矩阵排列$
 ```math
@@ -178,44 +182,50 @@ a_{21} & a_{22} \\
 现计算 $w_{211}，w_{212}， w_{221}， w_{222}$ 对 L的影响 （1）:
 ```math
 \frac{\partial{L}}{\partial{w_{211}}} = \frac{\partial{h_{21}}}{\partial{w_{211}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}} * \frac{\partial{L}}{\partial{a_{21}}} = a_{11} * Relu'(h_{21}) *  \frac{\partial{L}}{\partial{a_{21}}}  = dw_{211} \\  
-
-\frac{\partial{L}}{\partial{w_{212}}} = \frac{\partial{h_{21}}}{\partial{w_{212}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}}* \frac{\partial{L}}{\partial{a_{21}}} = a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  = dw_{212}  \\  
-
-\frac{\partial{L}}{\partial{w_{221}}} = \frac{\partial{h_{22}}}{\partial{w_{221}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}  =  dw_{221} \\  
-
+```
+```math
+\frac{\partial{L}}{\partial{w_{212}}} = \frac{\partial{h_{21}}}{\partial{w_{212}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}}* \frac{\partial{L}}{\partial{a_{21}}} = a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  = dw_{212}  \\ 
+``` 
+```math
+\frac{\partial{L}}{\partial{w_{221}}} = \frac{\partial{h_{22}}}{\partial{w_{221}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}  =  dw_{221} \\ 
+``` 
+```math
 \frac{\partial{L}}{\partial{w_{222}}} = \frac{\partial{h_{22}}}{\partial{w_{222}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{12} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} =  dw_{222}
 ```
 重写成:
 ``` math
-\begin{pmatrix}
-dw_{211} &  dw_{221} \\
-dw_{212} &  dw_{222} \\
-\end{pmatrix}
-= 
-\begin{pmatrix}
-a_{11} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  &  a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} \\
-a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}} & a_{12} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} \\
-\end{pmatrix}
-= \\
-\begin{pmatrix}
-a_{11} &  a_{12} \\
-\end{pmatrix}^T
-*
-\begin{pmatrix}
-Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}} &   Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} \\
-\end{pmatrix}
-= \\
-\begin{pmatrix}
-a_{11} &  a_{12} \\
-\end{pmatrix}^T
-* 
-\begin{pmatrix}
-\frac{\partial{L}}{\partial{a_{21}}} &  \frac{\partial{L}}{\partial{a_{22}}}  \\
-\end{pmatrix} * 
-\begin{pmatrix}
-Relu'(h_{21})  &  0  \\
-0 & Relu'(h_{22})
-\end{pmatrix} 
+\begin{align}
+  \begin{pmatrix}
+  dw_{211} &  dw_{221} \\
+  dw_{212} &  dw_{222} \\
+  \end{pmatrix}
+  &= 
+  \begin{pmatrix}
+  a_{11} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  &  a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}  \\
+  a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}} & a_{12} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}
+  \end{pmatrix} \\  
+  &=
+  \begin{pmatrix}
+  a_{11} &  a_{12} \\
+  \end{pmatrix}^T
+  *
+  \begin{pmatrix}
+  Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}} &   Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} \\
+  \end{pmatrix} \\  
+
+  &= 
+  \begin{pmatrix}
+  a_{11} &  a_{12} \\
+  \end{pmatrix}^T
+  * 
+  \begin{pmatrix}
+  \frac{\partial{L}}{\partial{a_{21}}} &  \frac{\partial{L}}{\partial{a_{22}}}  \\
+  \end{pmatrix} * 
+  \begin{pmatrix}
+  Relu'(h_{21})  &  0  \\
+  0 & Relu'(h_{22})
+  \end{pmatrix} 
+\end{align}
 
 ```
 + **或者直接理解为向量乘法**
