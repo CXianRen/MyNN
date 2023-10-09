@@ -10,7 +10,8 @@
 #### loss 反向传播最简单例子
 https://zhuanlan.zhihu.com/p/115571464
 
-假设现在有3层网络。每层只有1个节点
+假设现在有3层网络。每层只有1个节点  
+
 ![img](doc/example_5.png)
 
 + 本质上 可以先看成 函数运算
@@ -140,10 +141,10 @@ $w_{322}$ 对 L 的影响
 
 那么 上面 第三次的参数 $W_3$ 对 L的影响可以重写成
 ```math 
-dw_{311} = a_{21} * \Delta{y_1} \\ 
-dw_{312} = a_{22} * \Delta{y_1} \\
-dw_{321} = a_{21} * \Delta{y_2} \\
-dw_{322} = a_{22} * \Delta{y_1} \\
+dw_{311} = a_{21} * \Delta{y_1} \\  
+dw_{312} = a_{22} * \Delta{y_1} \\  
+dw_{321} = a_{21} * \Delta{y_2} \\  
+dw_{322} = a_{22} * \Delta{y_1} \\  
 ```
 将$dw 按 W_3 的矩阵排列$
 ```math
@@ -176,14 +177,13 @@ a_{21} & a_{22} \\
 
 现计算 $w_{211}，w_{212}， w_{221}， w_{222}$ 对 L的影响 （1）:
 ```math
-\frac{\partial{L}}{\partial{w_{211}}} = \frac{\partial{h_{21}}}{\partial{w_{211}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}} * \frac{\partial{L}}{\partial{a_{21}}} = a_{11} * Relu'(h_{21}) *  \frac{\partial{L}}{\partial{a_{21}}}  = dw_{211}\\
+\frac{\partial{L}}{\partial{w_{211}}} = \frac{\partial{h_{21}}}{\partial{w_{211}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}} * \frac{\partial{L}}{\partial{a_{21}}} = a_{11} * Relu'(h_{21}) *  \frac{\partial{L}}{\partial{a_{21}}}  = dw_{211} \\  
 
-\frac{\partial{L}}{\partial{w_{212}}} = \frac{\partial{h_{21}}}{\partial{w_{212}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}}* \frac{\partial{L}}{\partial{a_{21}}} = a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  = dw_{212}  \\
+\frac{\partial{L}}{\partial{w_{212}}} = \frac{\partial{h_{21}}}{\partial{w_{212}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}}* \frac{\partial{L}}{\partial{a_{21}}} = a_{12} * Relu'(h_{21}) * \frac{\partial{L}}{\partial{a_{21}}}  = dw_{212}  \\  
 
-\frac{\partial{L}}{\partial{w_{221}}} = \frac{\partial{h_{22}}}{\partial{w_{221}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}  =  dw_{221}\\
+\frac{\partial{L}}{\partial{w_{221}}} = \frac{\partial{h_{22}}}{\partial{w_{221}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{11} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}}  =  dw_{221} \\  
 
 \frac{\partial{L}}{\partial{w_{222}}} = \frac{\partial{h_{22}}}{\partial{w_{222}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{12} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} =  dw_{222}
-
 ```
 重写成:
 ``` math
