@@ -24,7 +24,7 @@ y=f(x)= ax+b 为例子， $\frac{dy}{dx} = f'(x) = a $
 那么就有 $\frac{dy}{dx} = ax^{1-1=0} = a = \frac{\partial{y}}{\partial{x}}$
 
 
-那么当 $L=MSE(y,y_{label}) = \frac{(y-y_{lable})^2}{n}$ 时，要求$y$ 对 $L$的影响 (输出层的梯度(偏微分)), 则有下面:
+那么当 $L=MSE(y,y_{label}) = \frac{(y-y_{lable})^2}{n}$ 时，要求 $y$ 对 $L$ 的影响 (输出层的梯度(偏微分)), 则有下面:
 ```math
 \frac{\partial{L}}{\partial{y}} = \frac{2*(y-y_{label})}{n}
 ```
@@ -80,7 +80,7 @@ w_{12} & w_{22} \\
 \begin{pmatrix}
 h_{11} &  h_{12} \\
 \end{pmatrix}
--> \\
+-> \\  
 \begin{pmatrix}
 a_{11} &  a_{12} \\
 \end{pmatrix}
