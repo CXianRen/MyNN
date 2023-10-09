@@ -150,7 +150,7 @@ dw_{321} &= a_{21} * \Delta{y_2} \\
 dw_{322} &= a_{22} * \Delta{y_1} \\  
 \end{align}
 ```
-将$dw 按 W_3 的矩阵排列$
+将 $dw$ 按 $W_3$ 的矩阵排列
 ```math
 \begin{pmatrix}
 dw_{311} &  dw_{321} \\
