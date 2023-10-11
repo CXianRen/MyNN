@@ -2,7 +2,7 @@
 #include <help.hpp>
 
 #define BATCH_SIZE 4
-#define INPUT_NODE 729
+#define INPUT_NODE 784
 #define L1_NODE 128
 #define L2_NODE 64
 #define OUTPUT_NODE 10

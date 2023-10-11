@@ -86,12 +86,12 @@ void test_speed(){
   }
 
   { 
-    std::cout << "data size:(128,27*27) * (27*27, 128)" << std::endl;
-    std::vector<float> m1(128*27*27);
-    std::vector<float> m2(128*27*27*128);
+    std::cout << "data size:(128,28*28) * (28*28, 128)" << std::endl;
+    std::vector<float> m1(128*28*28);
+    std::vector<float> m2(128*28*28*128);
 
     auto start = std::chrono::high_resolution_clock::now();
-    auto output = dot(m1, m2, 4, 27*27, 128);
+    auto output = dot(m1, m2, 4, 28*28, 128);
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Function took " << duration.count() << " microseconds" << std::endl;
