@@ -28,7 +28,7 @@ run: clean all
 
 
 TEST_DIR = test
-TEST_PROGRAMS = test_dot test_activation
+TEST_PROGRAMS = test_dot test_activation test_mnist_load
 TEST_SOURCES = $(addprefix $(TEST_DIR)/, $(TEST_PROGRAMS:=.cpp))
 TEST_BINARIES = $(addprefix $(BUILD_DIR)/, $(TEST_PROGRAMS))
 

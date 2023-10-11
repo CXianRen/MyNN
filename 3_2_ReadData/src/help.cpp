@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <chrono>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 void print_m(const std::vector<float> m, const int rows, const int cols)
 {
@@ -38,4 +40,58 @@ bool test(const std::vector<float> &m1, const std::vector<float> &m2)
     }
   }
   return true;
+}
+
+// hard code
+static std::vector<std::vector<float>> imgs;
+static std::vector<std::vector<float>> labels;
+static bool is_mnist_init = false;
+
+const std::vector<std::vector<float>>& mnist_get_imgs(){return imgs;}
+const std::vector<std::vector<float>>& mnist_get_labels(){return labels;}
+
+int mnist_init(const std::string data_file)
+{
+  if (!is_mnist_init)
+  {
+    std::ifstream dfile(data_file);
+    if (!dfile.is_open())
+    {
+      std::cout << "[MNIST] can not open data file" << std::endl;
+      return -1;
+    }
+    std::string line;
+    std::string token;
+
+    while (std::getline(dfile, line))
+    {
+      std::stringstream ss(line);
+      std::vector<std::string> tokens;
+      while (std::getline(ss, token, '\t'))
+      {
+        tokens.push_back(token);
+      }
+      int label = strtof(tokens[0].c_str(), 0);
+      std::vector<float> label_vec(10, 0);
+      label_vec[label] = 1;
+      labels.push_back(label_vec);
+
+      std::vector<float> img(tokens.size() - 1, 0);
+      for (size_t i = 0; i < img.size(); i++)
+      {
+        img[i] = strtof(tokens[i + 1].c_str(), 0);
+      }
+      imgs.push_back(img);
+    }
+
+    is_mnist_init = true;
+    std::cout << "[MNIST] init, total :" << imgs.size() << " imgs" << std::endl;
+  }
+  return 0;
+}
+
+int mnist_random_get(std::vector<float> &input,
+                     std::vector<float> &label, int batch)
+{
+  return 0;
 }
