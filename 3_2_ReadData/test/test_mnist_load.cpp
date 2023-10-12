@@ -32,10 +32,53 @@ void test_init()
     }
     for (int i = 0; i < 784; i++)
     {
-      if (imgs[0][i] != i+1)
+      if (imgs[0][i] != i + 1)
       {
-        std::cout << "test imgs[0][" << i << "] is not " << i+1 << ", but " << imgs[0][i] << std::endl;
+        std::cout << "test imgs[0][" << i << "] is not " << i + 1 << ", but " << imgs[0][i] << std::endl;
         break;
+      }
+    }
+  }
+}
+
+void test_get_batch()
+{
+  {
+    int ret = mnist_init("../data/test_data.txt");
+    if (ret != 0)
+    {
+      std::cout << "Init test fail: should return 0, but " << ret << std::endl;
+    }
+    {
+      std::vector<float> input;
+      std::vector<float> label;
+
+      mnist_random_get(input, label, 1);
+      if (input.size() != 784 * 1)
+      {
+        std::cout << "test_get_batch test fail, input size should be 784*1, but "
+                  << input.size() << std::endl;
+      }
+      if (label.size() != 10 * 1)
+      {
+        std::cout << "test_get_batch test fail, label size should be 10*1, but "
+                  << label.size() << std::endl;
+      }
+    }
+    {
+      std::vector<float> input;
+      std::vector<float> label;
+
+      mnist_random_get(input, label, 3);
+      if (input.size() != 784 * 3)
+      {
+        std::cout << "test_get_batch test fail, input size should be 784*3, but "
+                  << input.size() << std::endl;
+      }
+      if (label.size() != 10 * 3)
+      {
+        std::cout << "test_get_batch test fail, label size should be 10*3, but "
+                  << label.size() << std::endl;
       }
     }
   }
@@ -44,5 +87,6 @@ void test_init()
 int main(int argc, char **argv)
 {
   test_init();
+  test_get_batch();
   return 0;
 }

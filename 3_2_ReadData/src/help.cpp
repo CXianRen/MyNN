@@ -47,8 +47,8 @@ static std::vector<std::vector<float>> imgs;
 static std::vector<std::vector<float>> labels;
 static bool is_mnist_init = false;
 
-const std::vector<std::vector<float>>& mnist_get_imgs(){return imgs;}
-const std::vector<std::vector<float>>& mnist_get_labels(){return labels;}
+const std::vector<std::vector<float>> &mnist_get_imgs() { return imgs; }
+const std::vector<std::vector<float>> &mnist_get_labels() { return labels; }
 
 int mnist_init(const std::string data_file)
 {
@@ -93,5 +93,11 @@ int mnist_init(const std::string data_file)
 int mnist_random_get(std::vector<float> &input,
                      std::vector<float> &label, int batch)
 {
+  int idx = rand() % (imgs.size() - batch);
+  for (int i = idx; i < idx + batch; i++)
+  {
+    input.insert(input.end(), imgs[i].begin(), imgs[i].end());
+    label.insert(label.end(), labels[i].begin(), labels[i].end());
+  }
   return 0;
 }
