@@ -105,7 +105,7 @@ int mnist_random_get(std::vector<float> &input,
 
 void random_init_layer(std::vector<float> & layer){
   std::mt19937 mt(69);
-  std::uniform_real_distribution<float> dist(0,1);
+  std::uniform_real_distribution<float> dist(0,0.05);
   for(size_t i = 0 ; i <layer.size(); i++){
     layer[i] = dist(mt);
   }

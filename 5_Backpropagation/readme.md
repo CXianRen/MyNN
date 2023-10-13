@@ -320,3 +320,6 @@ dz_1 &= dz_2 * W_{2}^T * Relu'(Det(h_1)) \\
 dW_1 &= A_{1}^T * dz_1\\ 
 \end{align}
 ```
+
++ TODO 参数层初始值的选择
++ TODO 输入层的归一化

@@ -22,7 +22,7 @@ std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m
   // m2: right matrix, size (m1_cols * m2_cols)
   // return: m1_rows * m2_cols
 
-  std::vector<float> output(m1_rows * m2_cols);
+  std::vector<float> output(m1_rows * m2_cols, 0);
   //@Todo: will this step spend a lot of time?
   //@Todo: will the elements be initialized as zero?
 

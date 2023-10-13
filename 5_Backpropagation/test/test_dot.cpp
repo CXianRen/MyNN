@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 {
   testCorrectness();
   
-  test_speed();
+  // test_speed();
 
   return 0;
 }

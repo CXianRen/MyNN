@@ -16,6 +16,10 @@ void test_softmax()
 
     std::cout << "start softmax" << std::endl;
     auto y = softmax(m, 1, 3);
+    std::cout<< " y: "<<std::endl;
+    print_m(y,1,3);
+    std::cout<< " r: "<<std::endl;
+    print_m(r,1,3);
     test(y, r);
   }
 
