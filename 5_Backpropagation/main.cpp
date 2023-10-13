@@ -1,5 +1,5 @@
-#include <deep_core.hpp>
 #include <help.hpp>
+#include <deep_core.hpp>
 #include <iostream>
 
 #define BATCH_SIZE 4
@@ -35,7 +35,12 @@ int main(int argc, char **argv)
   std::cout << "bench mark:" << std::endl;
   print_m(y_lable, BATCH_SIZE, OUTPUT_NODE);
 
+  // back propagation
+  auto Loss_m = y_lable - yp;
+  
+
   auto loss = Loss_MSE(yp, y_lable);
   std::cout << "Loss is:" << loss << std::endl;
+  // back propagation
   return 0;
 }

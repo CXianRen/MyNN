@@ -1,7 +1,21 @@
 #include "../inc/deep_core.hpp"
-#include <vector>
+#include <stdexcept>
+#include <sstream>
+#include <iostream>
 
-std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m2,const int m1_rows, const int m1_cols, const int m2_cols)
+#define CHECK_SIZE(a, b)                                                  \
+  do                                                                      \
+  {                                                                       \
+    if (a.size() != b.size())                                             \
+    {                                                                     \
+      std::stringstream ss;                                               \
+      ss << "vector " << __func__ << " error, a.size() != b.size(), a = " \
+         << a.size() << " b = " << b.size() << "\n";                      \
+      throw std::runtime_error(ss.str());                                 \
+    }                                                                     \
+  } while (0)
+
+std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m2, const int m1_rows, const int m1_cols, const int m2_cols)
 {
   // Returns the product of two matrices: m1 (N,M) x m2 (M,K).
   // m1: left matrix, size (m1_ros * m1_cols)
@@ -25,4 +39,65 @@ std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m
     }
   }
   return output;
+}
+
+std::vector<float> transform(const std::vector<float> &m1, int rows, int cols)
+{
+  std::vector<float> rec(cols * rows);
+  int r = 0;
+  int c = 0;
+  for(size_t i = 0 ; i < rec.size(); i++){
+      r = i / rows;
+      c = i % rows;
+      rec[i] = m1[c*cols + r];
+  }
+  return rec;
+}
+
+std::vector<float> operator+(const std::vector<float> &a, const std::vector<float> &b)
+{
+  CHECK_SIZE(a, b);
+  std::vector<float> c(a.size());
+  for (size_t i = 0; i < a.size(); i++)
+  {
+    c[i] = a[i] + b[i];
+  }
+  return c;
+}
+
+std::vector<float> operator-(const std::vector<float> &a, const std::vector<float> &b)
+{
+  CHECK_SIZE(a, b);
+  std::vector<float> c(a.size());
+  for (size_t i = 0; i < a.size(); i++)
+  {
+    c[i] = a[i] - b[i];
+  }
+  return c;
+}
+
+std::vector<float> operator*(const std::vector<float> &a, const float scalar)
+{
+  {
+    std::vector<float> c(a.size());
+    for (size_t i = 0; i < a.size(); i++)
+    {
+      c[i] = a[i] * scalar;
+    }
+    return c;
+  }
+}
+
+std::vector<float> operator*(const float scalar, const std::vector<float> &a) { return a * scalar; }
+
+std::vector<float> operator/(const std::vector<float> &a, const float scalar)
+{
+  {
+    std::vector<float> c(a.size());
+    for (size_t i = 0; i < a.size(); i++)
+    {
+      c[i] = a[i] / scalar;
+    }
+    return c;
+  }
 }
