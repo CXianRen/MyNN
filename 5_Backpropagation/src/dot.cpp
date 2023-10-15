@@ -15,8 +15,14 @@
     }                                                                     \
   } while (0)
 
+
 std::vector<float> dot(const std::vector<float> &m1, const std::vector<float> &m2, const int m1_rows, const int m1_cols, const int m2_cols)
 {
+  if (int(m1.size()) != m1_rows * m1_cols || int(m2.size()) != m1_cols * m2_cols)
+  {
+    throw std::runtime_error("invalid input to dot");
+  }
+  
   // Returns the product of two matrices: m1 (N,M) x m2 (M,K).
   // m1: left matrix, size (m1_ros * m1_cols)
   // m2: right matrix, size (m1_cols * m2_cols)

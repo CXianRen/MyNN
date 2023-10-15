@@ -3,7 +3,7 @@ SRC_DIR := src
 INC_DIR := inc
 
 CC = g++
-CFLAGS = -std=c++11 -Wall -I$(INC_DIR) -O0
+CFLAGS = -std=c++11 -Wall -I$(INC_DIR) -O3
 
 $(info pwd: $(PWD))
 

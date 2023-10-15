@@ -94,6 +94,8 @@ int mnist_init(const std::string data_file)
 int mnist_random_get(std::vector<float> &input,
                      std::vector<float> &label, int batch)
 {
+  input.clear();
+  label.clear();
   int idx = rand() % (imgs.size() - batch);
   for (int i = idx; i < idx + batch; i++)
   {
@@ -103,10 +105,12 @@ int mnist_random_get(std::vector<float> &input,
   return 0;
 }
 
-void random_init_layer(std::vector<float> & layer){
+void random_init_layer(std::vector<float> &layer)
+{
   std::mt19937 mt(69);
-  std::uniform_real_distribution<float> dist(0,0.05);
-  for(size_t i = 0 ; i <layer.size(); i++){
+  std::uniform_real_distribution<float> dist(0, 0.05);
+  for (size_t i = 0; i < layer.size(); i++)
+  {
     layer[i] = dist(mt);
   }
 }
