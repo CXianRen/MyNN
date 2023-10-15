@@ -36,3 +36,13 @@ std::vector<float> relu(const std::vector<float> &m1)
   }
   return output;
 }
+
+std::vector<float> reluPrime(const std::vector<float> &m1)
+{
+  std::vector<float> output(m1.size());
+  for (size_t i = 0; i < m1.size(); i++)
+  {
+    output[i] = m1[i] <= 0.f ? 0.f : 1;
+  }
+  return output;
+}

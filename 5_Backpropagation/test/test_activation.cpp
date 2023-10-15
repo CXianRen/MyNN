@@ -16,10 +16,10 @@ void test_softmax()
 
     std::cout << "start softmax" << std::endl;
     auto y = softmax(m, 1, 3);
-    std::cout<< " y: "<<std::endl;
-    print_m(y,1,3);
-    std::cout<< " r: "<<std::endl;
-    print_m(r,1,3);
+    std::cout << " y: " << std::endl;
+    print_m(y, 1, 3);
+    std::cout << " r: " << std::endl;
+    print_m(r, 1, 3);
     test(y, r);
   }
 
@@ -35,23 +35,33 @@ void test_softmax()
   }
 }
 
-
-void test_reul(){
+void test_relu()
+{
   {
-    std::vector<float> m1={0.f, -0.1f, 1.0f};
-    std::vector<float> r ={0.f,0.f,1.0f};
-    auto y =relu(m1);
-    test(y,r);
+    std::vector<float> m1 = {0.f, -0.1f, 1.0f};
+    std::vector<float> r = {0.f, 0.f, 1.0f};
+    auto y = relu(m1);
+    test(y, r);
   }
-
 }
 
+void test_reluPrime()
+{
+  {
+    std::vector<float> m1 = {0.f, -0.1f, 2.0f};
+    std::vector<float> r = {0.f, 0.f, 1.0f};
+    auto y = reluPrime(m1);
+    test(y, r);
+  }
+}
 
 int main(int argc, char **argv)
 {
   std::cout << "test softmax" << std::endl;
   test_softmax();
   std::cout << "test relu" << std::endl;
-  test_reul();
+  test_relu();
+  std::cout << "test reluPrime" << std::endl;
+  test_reluPrime();
   return 0;
 }

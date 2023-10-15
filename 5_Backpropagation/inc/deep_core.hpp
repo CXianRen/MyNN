@@ -15,6 +15,7 @@ std::vector<float> operator/(const std::vector<float> &a, const float scalar);
 /* Activation fucntion*/
 std::vector<float> softmax(const std::vector<float> &m1, const int rows, const int cols);
 std::vector<float> relu(const std::vector<float> &m1);
+std::vector<float> reluPrime(const std::vector<float> &m1);
 
 /* Loss function */
 float Loss_MSE(const std::vector<float> y, const std::vector<float> yp);

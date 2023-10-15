@@ -37,16 +37,17 @@ int main(int argc, char **argv)
   auto a2 = relu(dot(a1, l2_node, BATCH_SIZE, L1_NODE, L2_NODE));
   // BATCH_SIZE,L2_NODE * L2_NODE,OUTPUT_NODE = BATCH_SIZE,OUTPUT_NODE
   auto yp = softmax(dot(a2, output_node, BATCH_SIZE, L2_NODE, OUTPUT_NODE), BATCH_SIZE, OUTPUT_NODE);
-  std::cout << "predected:" << std::endl;
-  print_m(yp, BATCH_SIZE, OUTPUT_NODE);
-  std::cout << "bench mark:" << std::endl;
-  print_m(y_lable, BATCH_SIZE, OUTPUT_NODE);
+  // std::cout << "predected:" << std::endl;
+  // print_m(yp, BATCH_SIZE, OUTPUT_NODE);
+  // std::cout << "bench mark:" << std::endl;
+  // print_m(y_lable, BATCH_SIZE, OUTPUT_NODE);
 
   // back propagation
   // BATCH_SIZE,output_node
   auto Loss_m = y_lable - yp;
   // L2_NODE, BATCH_SIZE * BATCH_SIZE,output_node
   auto dW3 = dot(transform(a2, BATCH_SIZE, L2_NODE), Loss_m, L2_NODE, BATCH_SIZE, OUTPUT_NODE);
+  
   // print_m(dW3*LEARNING_RATE, 10, 10);
   auto loss = Loss_MSE(yp, y_lable);
   std::cout << "Loss is:" << loss << std::endl;
