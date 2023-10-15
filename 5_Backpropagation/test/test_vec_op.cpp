@@ -139,6 +139,23 @@ void test_vec_transform()
   }
 }
 
+void test_vec_mult_vec()
+{
+  std::cout << "test:" << __func__ << std::endl;
+  std::vector<float> vec1(3, 2);
+  std::vector<float> vec2(3, 1.5);
+  {
+    auto c = vec1 * vec2;
+    // print_m(c,1,3);
+    for (size_t i = 0; i < c.size(); i++)
+    {
+      assert(c[i] == 3 ? true : (std::cerr << "test fail"
+                                           << "c[" << i << "] =" << c[i] << " != 3" << std::endl,
+                                 false));
+    }
+  }
+}
+
 int main(int argc, char **argv)
 {
   test_vec_plus_vec();
@@ -146,5 +163,6 @@ int main(int argc, char **argv)
   test_vec_mult_scalar();
   test_vec_divived_scalar();
   test_vec_transform();
+  test_vec_mult_vec();
   return 0;
 }

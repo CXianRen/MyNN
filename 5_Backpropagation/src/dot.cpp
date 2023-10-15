@@ -46,10 +46,11 @@ std::vector<float> transform(const std::vector<float> &m1, int rows, int cols)
   std::vector<float> rec(cols * rows);
   int r = 0;
   int c = 0;
-  for(size_t i = 0 ; i < rec.size(); i++){
-      r = i / rows;
-      c = i % rows;
-      rec[i] = m1[c*cols + r];
+  for (size_t i = 0; i < rec.size(); i++)
+  {
+    r = i / rows;
+    c = i % rows;
+    rec[i] = m1[c * cols + r];
   }
   return rec;
 }
@@ -90,6 +91,16 @@ std::vector<float> operator*(const std::vector<float> &a, const float scalar)
 
 std::vector<float> operator*(const float scalar, const std::vector<float> &a) { return a * scalar; }
 
+std::vector<float> operator*(const std::vector<float> &a, const std::vector<float> &b)
+{
+  CHECK_SIZE(a, b);
+  std::vector<float> c(a.size());
+  for (size_t i = 0; i < a.size(); i++)
+  {
+    c[i] = a[i] * b[i];
+  }
+  return c;
+}
 std::vector<float> operator/(const std::vector<float> &a, const float scalar)
 {
   {

@@ -7,7 +7,7 @@
 #define L1_NODE 128
 #define L2_NODE 64
 #define OUTPUT_NODE 10
-#define LEARNING_RATE (0.01/BATCH_SIZE)
+#define LEARNING_RATE (0.01 / BATCH_SIZE)
 
 int main(int argc, char **argv)
 {
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
   // forward propagation
   // BATCH_SIZE,INPUT_NODE * INPUT_NODE,L1_NODE = BATCH_SIZE,L1_NODE
-  input_node = input_node/255.0;
+  input_node = input_node / 255.0;
   auto a1 = relu(dot(input_node, l1_node, BATCH_SIZE, INPUT_NODE, L1_NODE));
   // BATCH_SIZE,L1_NODE * L1_NODE,L2_NODE = BATCH_SIZE,L2_NODE
   auto a2 = relu(dot(a1, l2_node, BATCH_SIZE, L1_NODE, L2_NODE));
@@ -47,7 +47,10 @@ int main(int argc, char **argv)
   auto Loss_m = y_lable - yp;
   // L2_NODE, BATCH_SIZE * BATCH_SIZE,output_node
   auto dW3 = dot(transform(a2, BATCH_SIZE, L2_NODE), Loss_m, L2_NODE, BATCH_SIZE, OUTPUT_NODE);
-  
+
+  // dz2 = dz3 * W3.T x Relu'(a2)
+  auto dz2 = dot(Loss_m, transform(output_node, L2_NODE, OUTPUT_NODE), BATCH_SIZE, OUTPUT_NODE, L2_NODE) * reluPrime(a2);
+
   // print_m(dW3*LEARNING_RATE, 10, 10);
   auto loss = Loss_MSE(yp, y_lable);
   std::cout << "Loss is:" << loss << std::endl;

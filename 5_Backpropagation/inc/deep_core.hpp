@@ -10,6 +10,7 @@ std::vector<float> operator+(const std::vector<float> &a, const std::vector<floa
 std::vector<float> operator-(const std::vector<float> &a, const std::vector<float> &b);
 std::vector<float> operator*(const std::vector<float> &a, const float scalar);
 std::vector<float> operator*(const float scalar, const std::vector<float> &a);
+std::vector<float> operator*(const std::vector<float> &a, const std::vector<float> &b);
 std::vector<float> operator/(const std::vector<float> &a, const float scalar);
 
 /* Activation fucntion*/
