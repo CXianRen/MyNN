@@ -9,7 +9,7 @@ https://zhuanlan.zhihu.com/p/261059231
 
 + 这里采用 MSE， Mean Squared Error
 ```math
-L(Y|f(x)) = \frac{1}{n}\sum^N_{i=1}(Y_i=f(x_i))^2
+L(Y|f(x)) = \frac{1}{n}\sum^N_{i=1}(Y_i-f(x_i))^2
 ```
 表示 预测 与 实际结果 的平均距离
 
