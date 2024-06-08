@@ -107,6 +107,7 @@ std::vector<float> operator*(const std::vector<float> &a, const std::vector<floa
   }
   return c;
 }
+
 std::vector<float> operator/(const std::vector<float> &a, const float scalar)
 {
   {
