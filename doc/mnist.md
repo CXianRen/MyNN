@@ -13,8 +13,8 @@ MNIST（Modified National Institute of Standards and Technology）数据集是�
 + 有4200行
 + 见data/check_data.ipynb 可以见到读出和显示的图 如下:
 
-![0](doc/num_0.png)
-![1](doc/num_1.png)
+![0](imgs/num_0.png)
+![1](imgs/num_1.png)
 
 ### 需要什么接口
 ```cpp
