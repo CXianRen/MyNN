@@ -4,10 +4,10 @@
 #include "inc/core.h"
 
 /*
- * to test softmax operation
+ * to test transpose operation
  */
 
-std::string test_name = "Test softmax operation";
+std::string test_name = "Test transpose operation";
 
 int main(int argc, char **argv)
 {
@@ -20,15 +20,9 @@ int main(int argc, char **argv)
   float a[6] = {1, 2, 3, 4, 5, 6};
   float *result = new float[6];
 
-  float ground_truth[6] = {
-      0.09003057,
-      0.24472847,
-      0.66524096,
-      0.09003057,
-      0.24472847,
-      0.66524096};
+  float ground_truth[6] = {1, 4, 2, 5, 3, 6};
 
-  Potato::Activ::softmax<float *, float>(a, result, rows, cols);
+  Potato::Op::transpose<float *, float>(a, rows, cols, result);
 
   // check the result
   for (int i = 0; i < rows * cols; i++)

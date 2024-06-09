@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
   float ground_truth[6] = {1, 0, 3, 0, 5, 0};
 
-  Potato::relu<float *>(a, result, 6);
+  Potato::Activ::relu<float *>(a, result, 6);
 
   // check the result
   for (int i = 0; i < 6; i++)

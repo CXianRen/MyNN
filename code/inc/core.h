@@ -16,7 +16,7 @@ inline int acc2d(int i, int j, int cols)
  *  it includes all the necessary headers for the engine to work
  */
 
-namespace Potato
+namespace Potato::Op
 {
 
   /*
@@ -42,6 +42,33 @@ namespace Potato
       }
     }
   }
+
+  /*
+   * transpose a matrix
+   * T: buffer type
+   * T_e: element type
+   * a : input matrix
+   * rows: number of rows
+   * cols: number of cols
+   * result: output matrix
+   *
+   */
+  template <typename T, typename T_e>
+  void transpose(const T &a, const int rows, const int cols, T &result)
+  {
+    for (int i = 0; i < rows; i++)
+    {
+      for (int j = 0; j < cols; j++)
+      {
+        result[acc2d<T>(j, i, rows)] = a[acc2d<T>(i, j, cols)];
+      }
+    }
+  }
+
+} // namespace Potato::Op
+
+namespace Potato::Activ
+{
 
   /** activation **/
 
@@ -92,5 +119,6 @@ namespace Potato
     }
   }
 
-} // namespace Potato
+} // namespace Potato::Activ
+
 #endif // __POTATO_CORE_H__

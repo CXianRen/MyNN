@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
   float ground_truth[4] = {22, 28, 49, 64};
 
-  Potato::dot<float *, float>(a, b, result, M, N, K);
+  Potato::Op::dot<float *, float>(a, b, result, M, N, K);
 
   // check the result
   for (int i = 0; i < M * K; i++)
