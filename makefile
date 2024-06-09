@@ -1,46 +1,51 @@
 BUILD_DIR = build
-SRC_DIR := src
-INC_DIR := inc
+ROOT_PATH := code
+
+CORE_DIR := src
+CORE_INC := -I $(ROOT_PATH) 
+
+TEST_DIR := test
+TEST_INC := $(INC) -I $(ROOT_PATH)/test/ 
+$(info CORE_INC: $(CORE_INC))
+$(info TEST_INC: $(TEST_INC))
+
+CC_OPT_LEVEL := -O3
 
 CC = g++
-CFLAGS = -std=c++11 -Wall -I$(INC_DIR) -O3
+CFLAGS = -std=c++11 -Wall $(CC_OPT_LEVEL)
 
 $(info pwd: $(PWD))
 
-SRCS = $(wildcard  $(SRC_DIR)/*.cpp)
-OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
+CORE_CPP_FILES := $(wildcard $(ROOT_PATH)/$(CORE_DIR)/*.cpp)
+CORE_OBJ_FILES := $(patsubst $(ROOT_PATH)/$(CORE_DIR)/%.cpp, $(BUILD_DIR)/$(CORE_DIR)/%.o, $(CORE_CPP_FILES))
 
-EXEC = $(BUILD_DIR)/app
+TEST_CPP_FILES := $(wildcard $(ROOT_PATH)/$(TEST_DIR)/*.cpp)
+TEST_PROGAMS := $(patsubst $(ROOT_PATH)/$(TEST_DIR)/%.cpp, $(BUILD_DIR)/$(TEST_DIR)/%, $(TEST_CPP_FILES))
 
-all: build $(EXEC)
+# $(info CORE_CPP_FILES: $(CORE_CPP_FILES))
+# $(info CORE_OBJ_FILES: $(CORE_OBJ_FILES))
+# $(info TEST_CPP_FILES: $(TEST_CPP_FILES))
+
+all: build
 
 build:
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/$(CORE_DIR)
+	mkdir -p $(BUILD_DIR)/$(TEST_DIR)
 
-$(EXEC): $(OBJS)	
-	$(CC) $(CFLAGS) $(OBJS) main.cpp -o $(EXEC)
+core: $(CORE_OBJ_FILES)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+$(CORE_OBJ_FILES): $(CORE_CPP_FILES)
+	$(CC) $(CFALGS) $(CORE_INC) -c $< -o $@
 
-run: clean all
-	./$(EXEC)
+test: $(TEST_PROGAMS)
 
+$(TEST_PROGAMS): $(TEST_CPP_FILES) $(CORE_OBJ_FILES)	
+	$(CC) $(CFLAGS) $(TEST_INC) $(CORE_INC) $< $(CORE_OBJ_FILES) -o $@
 
-TEST_DIR = test
-TEST_PROGRAMS = test_dot test_activation test_mnist_load test_loss test_vec_op
-TEST_SOURCES = $(addprefix $(TEST_DIR)/, $(TEST_PROGRAMS:=.cpp))
-TEST_BINARIES = $(addprefix $(BUILD_DIR)/, $(TEST_PROGRAMS))
-
-build_test: build $(TEST_PROGRAMS)
-
-$(TEST_PROGRAMS): $(TEST_BINARIES)
-
-$(BUILD_DIR)/%: $(TEST_DIR)/%.cpp $(OBJS)	
-	$(CC) $(CFLAGS) $(OBJS)	 -o $@ $<
-
-run_tests: $(TEST_BINARIES)
-	@for test in $(TEST_BINARIES); do \
+run_test: $(TEST_PROGAMS)
+	$(info TEST_PROGAMS: $(TEST_PROGAMS))
+	@for test in $(TEST_PROGAMS); do \
 		echo "Running $$test"; \
 		$$test; \
 	done
