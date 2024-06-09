@@ -97,24 +97,28 @@ namespace Potato::Op
   }
 
   /*
-   * normalize a matrix to sum to 1
+   * normalize a matrix, minus the max value
+   * then divide by the difference of the max value and min value
    */
   template <typename T, typename T_e>
   void normalize(const T &a, T &result, const int size)
   {
-    T_e sum = 0;
+    T_e max_x = a[0];
+    T_e min_x = a[0];
     for (int i = 0; i < size; i++)
     {
-      sum += a[i];
-      // check sum is too large
-      if (sum > 1e10)
+      if (a[i] > max_x)
       {
-        throw std::runtime_error("Sum is too large");
+        max_x = a[i];
+      }
+      if (a[i] < min_x)
+      {
+        min_x = a[i];
       }
     }
     for (int i = 0; i < size; i++)
     {
-      result[i] = a[i] / sum;
+      result[i] = (a[i] - min_x) / (max_x - min_x);
     }
   }
 

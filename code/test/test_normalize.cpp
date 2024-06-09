@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
   float *result = new float[6];
 
-  float ground_truth[6] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6};
+  float ground_truth[6] = {0.0, 0.2, 0.4, 0.6, 0.8, 1.0};
 
   Potato::Op::normalize<float *, float>(a, result, 6);
 
@@ -27,6 +27,9 @@ int main(int argc, char **argv)
   {
     if (result[i] != ground_truth[i])
     {
+      std::stringstream ss;
+      ss << "Test failed at index " << i << " expected " << ground_truth[i] << " but got " << result[i];
+      test_print(ss.str());
       test_result(test_name, false);
       return 1;
     }
