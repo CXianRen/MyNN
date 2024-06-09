@@ -65,6 +65,28 @@ namespace Potato::Op
     }
   }
 
+  /*
+   * normalize a matrix to sum to 1
+   */
+  template <typename T, typename T_e>
+  void normalize(const T &a, T &result, const int size)
+  {
+    T_e sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+      sum += a[i];
+      // check sum is too large
+      if (sum > 1e10)
+      {
+        throw std::runtime_error("Sum is too large");
+      }
+    }
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] / sum;
+    }
+  }
+
 } // namespace Potato::Op
 
 namespace Potato::Activ
@@ -120,5 +142,24 @@ namespace Potato::Activ
   }
 
 } // namespace Potato::Activ
+
+namespace Potato::Loss
+{
+
+  /**
+   * Mean Squared Error
+   */
+  template <typename T, typename T_e>
+  T_e MSE(const T &a, const T &b, const int size)
+  {
+    T_e sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+      sum += (a[i] - b[i]) * (a[i] - b[i]);
+    }
+    return sum / size;
+  }
+
+} // namespace Potato::Loss
 
 #endif // __POTATO_CORE_H__
