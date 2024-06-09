@@ -8,10 +8,11 @@
 #define L1_NODE 128
 #define L2_NODE 64
 #define OUTPUT_NODE 10
-#define LEARNING_RATE (0.01 / BATCH_SIZE)
+float LEARNING_RATE = 0.01 / BATCH_SIZE;
 
 using namespace Potato::Op;
 using namespace Potato::Activ;
+
 
 int main(int argc, char **argv)
 {
@@ -26,6 +27,8 @@ int main(int argc, char **argv)
     std::cout << "Init test fail: should return 0, but " << ret << std::endl;
     return ret;
   }
+
+  printf("learning rate is %f\n", LEARNING_RATE);
 
   std::vector<float> input_node, y_lable; // (BATCH_SIZE * INPUT_NODE); will be filled by mnist_get_random()
 
@@ -62,12 +65,11 @@ int main(int argc, char **argv)
         a2, output_node, yp, BATCH_SIZE, L2_NODE, OUTPUT_NODE);
     softmax<std::vector<float>, float>(yp, yp, BATCH_SIZE, OUTPUT_NODE);
 
-    static std::vector<float> Loss_m(BATCH_SIZE * OUTPUT_NODE);
-
     // back propagation
+    static std::vector<float> Loss_m(BATCH_SIZE * OUTPUT_NODE);
     diff<std::vector<float>, float>(
         yp, y_lable, Loss_m, BATCH_SIZE * OUTPUT_NODE);
-
+    // dz3 = a2.T * Loss_m
     static std::vector<float> dW3(L2_NODE * OUTPUT_NODE);
     static std::vector<float> a2_T(L2_NODE * BATCH_SIZE);
     transpose<std::vector<float>, float>(a2, BATCH_SIZE, L2_NODE, a2_T);
@@ -118,7 +120,7 @@ int main(int argc, char **argv)
     {
       float loss =
           Potato::Loss::MSE<std::vector<float>, float>(yp, y_lable, BATCH_SIZE * OUTPUT_NODE);
-      std::cout << "Loss is:" << loss * 10 << std::endl;
+      std::cout << "Loss is:" << loss / BATCH_SIZE << std::endl;
     }
   }
 }

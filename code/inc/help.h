@@ -1,19 +1,22 @@
 #ifndef __POTATO_HELP_H__
 #define __POTATO_HELP_H__
 
+#include <random>
+
 namespace Potato::helper
 {
 
   /*
    * random initialer
-   * [-1,1]
    */
   template <typename T>
   void random_init(T &a, const int size)
   {
-    for (int i = 0; i < size; i++)
+    std::mt19937 mt(69);
+    std::uniform_real_distribution<float> dist(0, 0.05);
+    for (size_t i = 0; i < size; i++)
     {
-      a[i] = (rand() % 2000 - 1000) / 1000.0;
+      a[i] = dist(mt);
     }
   }
 
