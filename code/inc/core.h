@@ -69,7 +69,15 @@ namespace Potato
     for (size_t i = 0; i < rows * cols; i += cols)
     {
       // how to avoid row*cols?: just calcualte in loop
-      max_x = *std::max_element(a.begin() + i, a.begin() + i + cols);
+      max_x = a[i];
+      for (int col = 1; col < cols; col++)
+      {
+        if (a[i + col] > max_x)
+        {
+          max_x = a[i + col];
+        }
+      }
+
       exp_sum = 0;
       for (int col = 0; col < cols; col++)
       {
