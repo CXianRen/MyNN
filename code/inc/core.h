@@ -44,6 +44,37 @@ namespace Potato::Op
   }
 
   /*
+   * tiled dot product of two matrices
+   */
+  template <typename T, typename T_e>
+  void dot_tiled(const T &a, const T &b, T &result,
+                 const int M, const int N, const int K,
+                 const int tile_size = 64 / sizeof(T_e))
+  {
+    for (int i = 0; i < M; i += tile_size)
+    {
+      for (int j = 0; j < K; j += tile_size)
+      {
+        for (int k = 0; k < N; k += tile_size)
+        {
+          for (int ii = i; ii < std::min(i + tile_size, M); ii++)
+          {
+            for (int jj = j; jj < std::min(j + tile_size, K); jj++)
+            {
+              T_e sum = 0;
+              for (int kk = k; kk < std::min(k + tile_size, N); kk++)
+              {
+                sum += a[acc2d<T>(ii, kk, N)] * b[acc2d<T>(kk, jj, K)];
+              }
+              result[acc2d<T>(ii, jj, K)] += sum;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*
    * diff of two matrix
    * T: buffer type
    * T_e: element type

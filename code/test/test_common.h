@@ -26,4 +26,10 @@ void test_result(const std::string &test_name, bool result)
   test_print(ss.str());
 }
 
+template <typename T>
+inline bool compare_float(T a, T b, T epsilon = 1e-6)
+{
+  return std::abs(a - b) < epsilon;
+}
+
 #endif // __POTATO_TEST_COMMON_H__
