@@ -51,27 +51,16 @@ namespace Potato::Op
                  const int M, const int N, const int K,
                  const int tile_size = 64 / sizeof(T_e))
   {
-    for (int i = 0; i < M; i += tile_size)
-    {
-      for (int j = 0; j < K; j += tile_size)
-      {
-        for (int k = 0; k < N; k += tile_size)
-        {
-          for (int ii = i; ii < std::min(i + tile_size, M); ii++)
-          {
-            for (int jj = j; jj < std::min(j + tile_size, K); jj++)
-            {
-              T_e sum = 0;
-              for (int kk = k; kk < std::min(k + tile_size, N); kk++)
+    for (int kt = 0; kt < N; kt += tile_size)
+      for (int jt = 0; jt < K; jt += tile_size)
+        for (int it = 0; it < M; it += tile_size)
+          for (int i = it; i < std::min(it + tile_size, M); i++)
+            for (int k = kt; k < std::min(kt + tile_size, N); k++)
+              for (int j = jt; j < std::min(jt + tile_size, K); j++)
               {
-                sum += a[acc2d<T>(ii, kk, N)] * b[acc2d<T>(kk, jj, K)];
+                result[acc2d<T>(i, j, K)] +=
+                    a[acc2d<T>(i, k, N)] * b[acc2d<T>(k, j, K)];
               }
-              result[acc2d<T>(ii, jj, K)] += sum;
-            }
-          }
-        }
-      }
-    }
   }
 
   /*

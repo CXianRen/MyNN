@@ -14,9 +14,9 @@ int main(int argc, char **argv)
   UNUSED(argc);
   UNUSED(argv);
 
-  int M = 256;
-  int N = 784;
-  int K = 128;
+  int M = 512;
+  int N = 256;
+  int K = 256;
 
   // generate random matrices
   float *a = new float[M * N];
@@ -39,11 +39,10 @@ int main(int argc, char **argv)
   ss << "\t dot     : " << elapsed_seconds.count() << "s\n";
 
   // do dot_tiled product 100 times and measure the time
-  float *result_tiled = new float[M * K];
   start = std::chrono::high_resolution_clock::now();
   for (int i = 0; i < 100; i++)
   {
-    Potato::Op::dot_tiled<float *, float>(a, b, result_tiled, M, N, K);
+    Potato::Op::dot_tiled<float *, float>(a, b, result, M, N, K);
   }
   end = std::chrono::high_resolution_clock::now();
   elapsed_seconds = end - start;
