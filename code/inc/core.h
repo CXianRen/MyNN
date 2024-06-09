@@ -44,6 +44,37 @@ namespace Potato::Op
   }
 
   /*
+   * diff of two matrix
+   * T: buffer type
+   * T_e: element type
+   * a : input matrix
+   * b : input matrix
+   * result: output matrix
+   * size: size of the matrix
+   */
+  template <typename T, typename T_e>
+  void diff(const T &a, const T &b, T &result, const int size)
+  {
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] - b[i];
+    }
+  }
+
+  /**
+   * factor times a matrix
+   *
+   */
+  template <typename T, typename T_e>
+  void factor(const T &a, const T_e factor, T &result, const int size)
+  {
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] * factor;
+    }
+  }
+
+  /*
    * transpose a matrix
    * T: buffer type
    * T_e: element type
@@ -92,8 +123,6 @@ namespace Potato::Op
 namespace Potato::Activ
 {
 
-  /** activation **/
-
   /**
    * Relu activation function
    */
@@ -108,6 +137,18 @@ namespace Potato::Activ
   }
 
   /**
+   * Relu prime activation function
+   */
+  template <typename T>
+  void reluPrime(const T &a, T &result, const int size)
+  {
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] <= 0.0 ? 0.0 : 1.0;
+    }
+  }
+
+  /**
    * Softmax activation function
    */
   template <typename T, typename T_e>
@@ -115,7 +156,7 @@ namespace Potato::Activ
   {
     T_e max_x = 0;
     T_e exp_sum = 0;
-    for (size_t i = 0; i < rows * cols; i += cols)
+    for (int i = 0; i < rows * cols; i += cols)
     {
       // how to avoid row*cols?: just calcualte in loop
       max_x = a[i];

@@ -1,4 +1,4 @@
-#include "inc/dataloder.h"
+#include "inc/dataloader.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
