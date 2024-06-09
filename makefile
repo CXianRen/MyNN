@@ -22,9 +22,10 @@ CORE_OBJ_FILES := $(patsubst $(ROOT_PATH)/$(CORE_DIR)/%.cpp, $(BUILD_DIR)/$(CORE
 TEST_CPP_FILES := $(wildcard $(ROOT_PATH)/$(TEST_DIR)/*.cpp)
 TEST_PROGAMS := $(patsubst $(ROOT_PATH)/$(TEST_DIR)/%.cpp, $(BUILD_DIR)/$(TEST_DIR)/%, $(TEST_CPP_FILES))
 
-# $(info CORE_CPP_FILES: $(CORE_CPP_FILES))
-# $(info CORE_OBJ_FILES: $(CORE_OBJ_FILES))
-# $(info TEST_CPP_FILES: $(TEST_CPP_FILES))
+$(info CORE_CPP_FILES: $(CORE_CPP_FILES))
+$(info CORE_OBJ_FILES: $(CORE_OBJ_FILES))
+$(info TEST_CPP_FILES: $(TEST_CPP_FILES))
+$(info TEST_PROGAMS: $(TEST_PROGAMS))
 
 all: build
 
@@ -35,18 +36,18 @@ build:
 
 core: $(CORE_OBJ_FILES)
 
-$(CORE_OBJ_FILES): $(CORE_CPP_FILES)
-	$(CC) $(CFALGS) $(CORE_INC) -c $< -o $@
+$(BUILD_DIR)/$(CORE_DIR)/%.o: $(ROOT_PATH)/$(CORE_DIR)/%.cpp
+	$(CC) $(CFLAGS) $(CORE_INC) -c $< -o $@
 
 test: $(TEST_PROGAMS)
 
-$(TEST_PROGAMS): $(TEST_CPP_FILES) $(CORE_OBJ_FILES)	
+$(BUILD_DIR)/$(TEST_DIR)/%: $(ROOT_PATH)/$(TEST_DIR)/%.cpp $(CORE_OBJ_FILES)
 	$(CC) $(CFLAGS) $(TEST_INC) $(CORE_INC) $< $(CORE_OBJ_FILES) -o $@
 
 run_test: $(TEST_PROGAMS)
 	$(info TEST_PROGAMS: $(TEST_PROGAMS))
+	echo "Running tests..."
 	@for test in $(TEST_PROGAMS); do \
-		echo "Running $$test"; \
 		$$test; \
 	done
 

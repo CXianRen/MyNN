@@ -15,15 +15,13 @@ int main(int argc, char **argv)
   UNUSED(argc);
   UNUSED(argv);
 
-  test_print(test_name);
-
   int M = 2;
   int N = 3;
   int K = 2;
 
   float a[6] = {1, 2, 3, 4, 5, 6};
   float b[6] = {1, 2, 3, 4, 5, 6};
-  float result[4] = {0};
+  float* result = new float[M * K];
 
   float ground_truth[4] = {22, 28, 49, 64};
 
@@ -34,8 +32,9 @@ int main(int argc, char **argv)
   {
     if (result[i] != ground_truth[i])
     {
-      test_print("Failed");
+      test_result(test_name, false);
       return 1;
     }
   }
+  test_result(test_name, true);
 }
