@@ -3,6 +3,8 @@
 #include "inc/dataloader.h"
 #include "inc/help.h"
 
+#include <chrono>
+
 #define BATCH_SIZE 256
 #define INPUT_NODE 784
 #define L1_NODE 128
@@ -40,6 +42,9 @@ int main(int argc, char **argv)
     std::vector<float> output_node(L2_NODE * OUTPUT_NODE);
     Potato::helper::random_init(output_node, L2_NODE * OUTPUT_NODE);
 
+    // time measurement
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     for (int echo = 0; echo < 10000; echo++)
     {
         mnist.random_get_trainning(input_node, y_lable, BATCH_SIZE);
@@ -53,7 +58,7 @@ int main(int argc, char **argv)
         dot<std::vector<float>, float>(
             input_node, l1_node, a1, BATCH_SIZE, INPUT_NODE, L1_NODE);
         relu<std::vector<float>>(a1, a1, BATCH_SIZE * L1_NODE);
-        
+
         static std::vector<float> a2(BATCH_SIZE * L2_NODE);
         dot<std::vector<float>, float>(
             a1, l2_node, a2, BATCH_SIZE, L1_NODE, L2_NODE);
@@ -117,6 +122,12 @@ int main(int argc, char **argv)
 
         if (echo % 100 == 0)
         {
+            auto end_time = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> diff = end_time - start_time;
+            std::cout << "Each echo takes:"
+                      << diff.count() / 100.0 * 1000 << " ms" << std::endl;
+            start_time = std::chrono::high_resolution_clock::now();
+
             float loss =
                 Potato::Loss::MSE<std::vector<float>, float>(yp, y_lable, BATCH_SIZE * OUTPUT_NODE);
             std::cout << "Loss is:" << loss * OUTPUT_NODE << std::endl;

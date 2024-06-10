@@ -6,8 +6,8 @@ CORE_INC := -I $(ROOT_PATH)
 
 TEST_DIR := test
 TEST_INC := $(INC) -I $(ROOT_PATH)/test/ 
-$(info CORE_INC: $(CORE_INC))
-$(info TEST_INC: $(TEST_INC))
+# $(info CORE_INC: $(CORE_INC))
+# $(info TEST_INC: $(TEST_INC))
 
 
 EXAMPLES_DIR := example
@@ -22,7 +22,7 @@ openMP := -fopenmp
 CFLAGS = -std=c++11 -Wall $(CC_OPT_LEVEL) $(openMP)
 
 
-$(info pwd: $(PWD))
+# $(info pwd: $(PWD))
 
 CORE_CPP_FILES := $(wildcard $(ROOT_PATH)/$(CORE_DIR)/*.cpp)
 CORE_OBJ_FILES := $(patsubst $(ROOT_PATH)/$(CORE_DIR)/%.cpp, $(BUILD_DIR)/$(CORE_DIR)/%.o, $(CORE_CPP_FILES))
@@ -34,11 +34,11 @@ EXAMPLE_CPP_FILES := $(wildcard $(ROOT_PATH)/$(EXAMPLES_DIR)/*.cpp)
 EXAMPLES_PROGAMS := $(patsubst $(ROOT_PATH)/$(EXAMPLES_DIR)/%.cpp, $(BUILD_DIR)/$(EXAMPLES_DIR)/%, $(EXAMPLE_CPP_FILES))
 
 
-$(info CORE_CPP_FILES: $(CORE_CPP_FILES))
-$(info CORE_OBJ_FILES: $(CORE_OBJ_FILES))
-$(info TEST_CPP_FILES: $(TEST_CPP_FILES))
-$(info TEST_PROGAMS: $(TEST_PROGAMS))
-$(info EXAMPLES_PROGAMS: $(EXAMPLES_PROGAMS))
+# $(info CORE_CPP_FILES: $(CORE_CPP_FILES))
+# $(info CORE_OBJ_FILES: $(CORE_OBJ_FILES))
+# $(info TEST_CPP_FILES: $(TEST_CPP_FILES))
+# $(info TEST_PROGAMS: $(TEST_PROGAMS))
+# $(info EXAMPLES_PROGAMS: $(EXAMPLES_PROGAMS))
 
 all: clean build run_test
 
@@ -73,6 +73,9 @@ $(BUILD_DIR)/$(EXAMPLES_DIR)/%: $(ROOT_PATH)/$(EXAMPLES_DIR)/%.cpp $(CORE_OBJ_FI
 
 fc_3layer: $(BUILD_DIR)/$(EXAMPLES_DIR)/fc_3layer
 	 ./$(BUILD_DIR)/$(EXAMPLES_DIR)/fc_3layer
+
+example:
+	$(info "fc_3layer")
 
 clean:
 	rm -rf $(BUILD_DIR)
