@@ -1,0 +1,304 @@
+g++ -std=c++11 -Wall -O3 -fopenmp  -I code/example/ -I code  code/example/fc_3layer.cpp  build/src/mnistDataLoader.o  build/src/operation.o -o build/example/fc_3layer
+./build/example/fc_3layer
+[MNIST] init, total :42000 imgs
+learning rate is 0.000039
+Each echo takes:0.0507085 ms
+Loss is:0.991964
+Accuracy is:0.0742188
+Each echo takes:4.06005 ms
+Loss is:0.90973
+Accuracy is:0.140625
+Each echo takes:4.15381 ms
+Loss is:0.906643
+Accuracy is:0.0703125
+Each echo takes:4.08647 ms
+Loss is:0.925959
+Accuracy is:0.0898438
+Each echo takes:4.66861 ms
+Loss is:0.907913
+Accuracy is:0.09375
+Each echo takes:5.35894 ms
+Loss is:0.899435
+Accuracy is:0.0898438
+Each echo takes:5.59003 ms
+Loss is:0.897817
+Accuracy is:0.105469
+Each echo takes:4.03587 ms
+Loss is:0.902381
+Accuracy is:0.101562
+Each echo takes:4.20425 ms
+Loss is:0.904186
+Accuracy is:0.078125
+Each echo takes:3.95821 ms
+Loss is:0.894315
+Accuracy is:0.207031
+Each echo takes:3.79167 ms
+Loss is:0.890599
+Accuracy is:0.113281
+Each echo takes:3.727 ms
+Loss is:0.888691
+Accuracy is:0.0976562
+Each echo takes:3.7151 ms
+Loss is:0.874952
+Accuracy is:0.191406
+Each echo takes:3.72766 ms
+Loss is:0.853013
+Accuracy is:0.324219
+Each echo takes:3.65076 ms
+Loss is:0.803762
+Accuracy is:0.445312
+Each echo takes:3.67936 ms
+Loss is:0.730351
+Accuracy is:0.441406
+Each echo takes:4.5642 ms
+Loss is:0.637509
+Accuracy is:0.570312
+Each echo takes:4.07626 ms
+Loss is:0.577503
+Accuracy is:0.597656
+Each echo takes:4.7087 ms
+Loss is:0.536795
+Accuracy is:0.613281
+Each echo takes:4.04755 ms
+Loss is:0.539071
+Accuracy is:0.609375
+Each echo takes:5.07012 ms
+Loss is:0.472778
+Accuracy is:0.679688
+Each echo takes:4.7062 ms
+Loss is:0.438637
+Accuracy is:0.707031
+Each echo takes:6.82849 ms
+Loss is:0.434349
+Accuracy is:0.671875
+Each echo takes:5.08383 ms
+Loss is:0.392752
+Accuracy is:0.761719
+Each echo takes:4.1484 ms
+Loss is:0.390334
+Accuracy is:0.726562
+Each echo takes:4.23246 ms
+Loss is:0.340791
+Accuracy is:0.753906
+Each echo takes:4.41339 ms
+Loss is:0.333889
+Accuracy is:0.765625
+Each echo takes:4.43855 ms
+Loss is:0.352036
+Accuracy is:0.769531
+Each echo takes:3.85012 ms
+Loss is:0.338084
+Accuracy is:0.746094
+Each echo takes:3.86954 ms
+Loss is:0.327012
+Accuracy is:0.808594
+Each echo takes:4.11906 ms
+Loss is:0.301362
+Accuracy is:0.796875
+Each echo takes:4.00482 ms
+Loss is:0.35496
+Accuracy is:0.757812
+Each echo takes:3.81686 ms
+Loss is:0.316025
+Accuracy is:0.785156
+Each echo takes:3.90478 ms
+Loss is:0.344023
+Accuracy is:0.777344
+Each echo takes:3.86364 ms
+Loss is:0.259166
+Accuracy is:0.828125
+Each echo takes:3.95889 ms
+Loss is:0.292283
+Accuracy is:0.800781
+Each echo takes:4.13736 ms
+Loss is:0.293941
+Accuracy is:0.773438
+Each echo takes:4.73325 ms
+Loss is:0.281236
+Accuracy is:0.808594
+Each echo takes:4.11543 ms
+Loss is:0.285494
+Accuracy is:0.816406
+Each echo takes:5.11135 ms
+Loss is:0.262293
+Accuracy is:0.816406
+Each echo takes:4.81923 ms
+Loss is:0.258377
+Accuracy is:0.832031
+Each echo takes:4.052 ms
+Loss is:0.261833
+Accuracy is:0.816406
+Each echo takes:5.12207 ms
+Loss is:0.258436
+Accuracy is:0.828125
+Each echo takes:4.83153 ms
+Loss is:0.252919
+Accuracy is:0.832031
+Each echo takes:4.01564 ms
+Loss is:0.252126
+Accuracy is:0.84375
+Each echo takes:4.99521 ms
+Loss is:0.185283
+Accuracy is:0.886719
+Each echo takes:4.26086 ms
+Loss is:0.225075
+Accuracy is:0.835938
+Each echo takes:4.45769 ms
+Loss is:0.205029
+Accuracy is:0.875
+Each echo takes:4.90116 ms
+Loss is:0.197749
+Accuracy is:0.875
+Each echo takes:4.8435 ms
+Loss is:0.220959
+Accuracy is:0.859375
+Each echo takes:4.10001 ms
+Loss is:0.163167
+Accuracy is:0.902344
+Each echo takes:4.78636 ms
+Loss is:0.205115
+Accuracy is:0.859375
+Each echo takes:4.45966 ms
+Loss is:0.219182
+Accuracy is:0.855469
+Each echo takes:4.2519 ms
+Loss is:0.180812
+Accuracy is:0.894531
+Each echo takes:4.35786 ms
+Loss is:0.173612
+Accuracy is:0.894531
+Each echo takes:4.38054 ms
+Loss is:0.194214
+Accuracy is:0.886719
+Each echo takes:4.07405 ms
+Loss is:0.162953
+Accuracy is:0.902344
+Each echo takes:4.19103 ms
+Loss is:0.194242
+Accuracy is:0.871094
+Each echo takes:4.35294 ms
+Loss is:0.178016
+Accuracy is:0.882812
+Each echo takes:3.97102 ms
+Loss is:0.2118
+Accuracy is:0.859375
+Each echo takes:4.17521 ms
+Loss is:0.222476
+Accuracy is:0.859375
+Each echo takes:5.09665 ms
+Loss is:0.192462
+Accuracy is:0.882812
+Each echo takes:4.03172 ms
+Loss is:0.186409
+Accuracy is:0.886719
+Each echo takes:4.50048 ms
+Loss is:0.176012
+Accuracy is:0.882812
+Each echo takes:4.01736 ms
+Loss is:0.186251
+Accuracy is:0.863281
+Each echo takes:4.17472 ms
+Loss is:0.192794
+Accuracy is:0.886719
+Each echo takes:4.24687 ms
+Loss is:0.196203
+Accuracy is:0.863281
+Each echo takes:3.98159 ms
+Loss is:0.207684
+Accuracy is:0.855469
+Each echo takes:4.19482 ms
+Loss is:0.182661
+Accuracy is:0.875
+Each echo takes:4.5893 ms
+Loss is:0.148532
+Accuracy is:0.90625
+Each echo takes:3.99683 ms
+Loss is:0.224393
+Accuracy is:0.851562
+Each echo takes:3.99912 ms
+Loss is:0.195332
+Accuracy is:0.886719
+Each echo takes:4.05932 ms
+Loss is:0.169516
+Accuracy is:0.894531
+Each echo takes:5.32663 ms
+Loss is:0.195567
+Accuracy is:0.875
+Each echo takes:4.07281 ms
+Loss is:0.152314
+Accuracy is:0.910156
+Each echo takes:4.07824 ms
+Loss is:0.192171
+Accuracy is:0.863281
+Each echo takes:4.15616 ms
+Loss is:0.25136
+Accuracy is:0.832031
+Each echo takes:4.37888 ms
+Loss is:0.166622
+Accuracy is:0.894531
+Each echo takes:4.23136 ms
+Loss is:0.158727
+Accuracy is:0.902344
+Each echo takes:4.66881 ms
+Loss is:0.172038
+Accuracy is:0.890625
+Each echo takes:4.13646 ms
+Loss is:0.177862
+Accuracy is:0.890625
+Each echo takes:4.01542 ms
+Loss is:0.162263
+Accuracy is:0.890625
+Each echo takes:4.72366 ms
+Loss is:0.183621
+Accuracy is:0.859375
+Each echo takes:4.27112 ms
+Loss is:0.1833
+Accuracy is:0.863281
+Each echo takes:4.8728 ms
+Loss is:0.181044
+Accuracy is:0.871094
+Each echo takes:4.06079 ms
+Loss is:0.169842
+Accuracy is:0.886719
+Each echo takes:3.97028 ms
+Loss is:0.149584
+Accuracy is:0.90625
+Each echo takes:4.0761 ms
+Loss is:0.185565
+Accuracy is:0.867188
+Each echo takes:4.72131 ms
+Loss is:0.173471
+Accuracy is:0.902344
+Each echo takes:4.43971 ms
+Loss is:0.157217
+Accuracy is:0.90625
+Each echo takes:4.70549 ms
+Loss is:0.146447
+Accuracy is:0.90625
+Each echo takes:4.05713 ms
+Loss is:0.172334
+Accuracy is:0.902344
+Each echo takes:4.06016 ms
+Loss is:0.164889
+Accuracy is:0.894531
+Each echo takes:4.12185 ms
+Loss is:0.142024
+Accuracy is:0.90625
+Each echo takes:4.33388 ms
+Loss is:0.144591
+Accuracy is:0.90625
+Each echo takes:3.97184 ms
+Loss is:0.187318
+Accuracy is:0.871094
+Each echo takes:5.11639 ms
+Loss is:0.177072
+Accuracy is:0.863281
+Each echo takes:3.979 ms
+Loss is:0.154873
+Accuracy is:0.910156
+Each echo takes:4.00619 ms
+Loss is:0.177407
+Accuracy is:0.882812
+Each echo takes:3.98347 ms
+Loss is:0.185146
+Accuracy is:0.882812
