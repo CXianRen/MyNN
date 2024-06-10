@@ -15,8 +15,8 @@ int main(int argc, char **argv)
   UNUSED(argv);
 
   int M = 512;
-  int N = 256;
-  int K = 256;
+  int N = 512;
+  int K = 512;
 
   // generate random matrices
   float *a = new float[M * N];

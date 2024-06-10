@@ -5,6 +5,8 @@
 #include <cmath>
 #include <algorithm>
 
+#include <omp.h>
+
 template <typename T>
 inline int acc2d(int i, int j, int cols)
 {
@@ -29,6 +31,7 @@ namespace Potato::Op
   void dot(const T &a, const T &b, T &result,
            const int M, const int N, const int K)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < M; i++)
     {
       for (int j = 0; j < K; j++)
@@ -51,9 +54,10 @@ namespace Potato::Op
                  const int M, const int N, const int K,
                  const int tile_size = 64 / sizeof(T_e))
   {
-    for (int kt = 0; kt < N; kt += tile_size)
-      for (int jt = 0; jt < K; jt += tile_size)
-        for (int it = 0; it < M; it += tile_size)
+#pragma omp parallel for collapse(3)
+    for (int it = 0; it < M; it += tile_size)
+      for (int kt = 0; kt < N; kt += tile_size)
+        for (int jt = 0; jt < K; jt += tile_size)
           for (int i = it; i < std::min(it + tile_size, M); i++)
             for (int k = kt; k < std::min(kt + tile_size, N); k++)
               for (int j = jt; j < std::min(jt + tile_size, K); j++)

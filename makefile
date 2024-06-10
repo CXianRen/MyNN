@@ -16,7 +16,11 @@ EXAMPLES_INC := $(INC) -I $(ROOT_PATH)/example/
 CC_OPT_LEVEL := -O3
 
 CC = g++
-CFLAGS = -std=c++11 -Wall $(CC_OPT_LEVEL)
+
+openMP := -fopenmp
+
+CFLAGS = -std=c++11 -Wall $(CC_OPT_LEVEL) $(openMP)
+
 
 $(info pwd: $(PWD))
 
@@ -36,7 +40,7 @@ $(info TEST_CPP_FILES: $(TEST_CPP_FILES))
 $(info TEST_PROGAMS: $(TEST_PROGAMS))
 $(info EXAMPLES_PROGAMS: $(EXAMPLES_PROGAMS))
 
-all: build
+all: clean build run_test
 
 build:
 	mkdir -p $(BUILD_DIR)

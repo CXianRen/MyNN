@@ -14,7 +14,7 @@ namespace Potato::helper
   {
     std::mt19937 mt(69);
     std::uniform_real_distribution<float> dist(0, 0.05);
-    for (size_t i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
       a[i] = dist(mt);
     }
