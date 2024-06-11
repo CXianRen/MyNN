@@ -79,6 +79,7 @@ namespace Potato::Op
   template <typename T, typename T_e>
   void diff(const T &a, const T &b, T &result, const int size)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] - b[i];
@@ -92,6 +93,7 @@ namespace Potato::Op
   template <typename T, typename T_e>
   void factor(const T &a, const T_e factor, T &result, const int size)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] * factor;
@@ -129,6 +131,7 @@ namespace Potato::Op
   template <typename T, typename T_e>
   void transpose(const T &a, const int rows, const int cols, T &result)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < cols; j++)
@@ -158,6 +161,7 @@ namespace Potato::Op
         min_x = a[i];
       }
     }
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = (a[i] - min_x) / (max_x - min_x);
@@ -176,6 +180,7 @@ namespace Potato::Activ
   template <typename T>
   void relu(const T &a, T &result, const int size)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] <= 0.0 ? 0.0 : a[i];
@@ -188,6 +193,7 @@ namespace Potato::Activ
   template <typename T>
   void reluPrime(const T &a, T &result, const int size)
   {
+#pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] <= 0.0 ? 0.0 : 1.0;
