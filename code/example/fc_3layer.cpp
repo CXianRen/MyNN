@@ -131,6 +131,27 @@ int main(int argc, char **argv)
             float loss =
                 Potato::Loss::MSE<std::vector<float>, float>(yp, y_lable, BATCH_SIZE * OUTPUT_NODE);
             std::cout << "Loss is:" << loss * OUTPUT_NODE << std::endl;
+
+            // test accuracy
+            int correct = 0;
+            for (int i = 0; i < BATCH_SIZE; i++)
+            {
+                int max_idx = 0;
+                float max_val = yp[i * OUTPUT_NODE];
+                for (int j = 1; j < OUTPUT_NODE; j++)
+                {
+                    if (yp[i * OUTPUT_NODE + j] > max_val)
+                    {
+                        max_val = yp[i * OUTPUT_NODE + j];
+                        max_idx = j;
+                    }
+                }
+                if (y_lable[i * OUTPUT_NODE + max_idx] == 1)
+                {
+                    correct++;
+                }
+            }
+            std::cout << "Accuracy is:" << correct * 1.0 / BATCH_SIZE << std::endl;
         }
     }
 }
