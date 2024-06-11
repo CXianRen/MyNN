@@ -199,6 +199,7 @@ a_{21} & a_{22} \\
 ```
 
 Now, let's compute the effect of $w_{211}，w_{212}， w_{221}， w_{222}$ on L:
+
 ![img](./imgs/backpropagation.drawio.png)
 
 ```math
@@ -251,7 +252,9 @@ Similar, rewrite into matrix format:
 ```
 
 **So, how to get $\frac{\partial{L}}{\partial{a_{21}}}$, $\frac{\partial{L}}{\partial{a_{22}}}$？**
+
 ![img](./imgs/backpropagation.drawio.png)
+
 ```math 
 \frac{\partial{L}}{\partial{a_{21}}} = \frac{\partial{h_{31}}}{\partial{a_{21}}} * \frac{\partial{y_{1}}}{\partial{h_{31}}} * \frac{\partial{L}}{\partial{y_{1}}}  + \frac{\partial{h_{32}}}{\partial{a_{21}}}* \frac{\partial{y_{2}}}{\partial{h_{32}}} * \frac{\partial{L}}{\partial{y_{2}}}= w_{311} * 1 * \Delta{y_1} + w_{321} * 1 * \Delta{y_2} \\
 ```
