@@ -1,52 +1,68 @@
-### Loss - 1
+# Loss
+First we shoule know:
++ The purpose of training is to find a set of weights that results in a minimum loss. 
++ So that, the gradient of loss with respect to the weights can be considered as the effect of weights on the loss.
++ Therefore, the new wiehgts should updated in the opposite direction of graident, which is $w^* = w - g$. 
 
-首先明确:
-+ 训练的目的是找到一个最小的Loss
-+ 那么 Loss 对 参数 w的梯度 可以说明 参数 w 对 Loss的影响情况
-+ 如果 g 是正的  那么 新 W 应该朝着反向走 即 $w^* = w - g$
-+ 如果 g 是负的，那么 新 W 也应该朝着反向向走， 即 $w^* = w - g$ (此处当成向量理解就能理解为为什么 都是 负 号了)
+# A simple case of back propagation
+[Ref](https://zhuanlan.zhihu.com/p/115571464)
 
+Basically, it can be seen as a function operation.
 
-#### loss 反向传播最简单例子
-https://zhuanlan.zhihu.com/p/115571464
+Take the function $y=f(x) = ax+b$ as an example. 
 
-假设现在有3层网络。每层只有1个节点  
+Then, we have:
+```math  
+  \frac{dy}{dx} = f'(x) = a
+``` 
+So, when
+```math
+  y = f(x,z) = ax+bz
+```
+What is : $\frac{dy}{dx} = ?$
 
-![img](doc/example_5.png)
+Here, it can be considered as an function on a 2-dims plan (for example an altitude map).By computing its derivative with respect to x, we get partial derivative. (what is the graident? in practice, it is the change in altitude when moving a unit distance in a specific direction.)
 
-+ 本质上 可以先看成 函数运算
+So Does this thing relates to y?. If the term involving x includes y, then it does, otherwise, it doesn't. 
 
->(对 f(x) 求 其导函数 大家都会的吧)（这里是山寨数学，看看笑一笑就好了, 正经人还是回去复习高数）
-y=f(x)= ax+b 为例子， $\frac{dy}{dx} = f'(x) = a $
-那么当 y = f(x,z) = ax+bz 时， $\frac{dy}{dx} = ?$
-这里可以理解为 一个二位平面上的函数(比如海拔图啥的)，对x方向上求它的导函数(梯度函数(梯度是什么？就是海拔再移动单位距离里变化的大小)),就有了emm 偏微分。
-那么这个玩意和y有没有关系呢？如果含x项带有y就有关系，没有就没有关系。（Todo 看看具体例子）
-那么就有 $\frac{dy}{dx} = ax^{1-1=0} = a = \frac{\partial{y}}{\partial{x}}$
+Therefore, we have:
+```math
+  \frac{dy}{dx} = ax^{1-1=0} = a = \frac{\partial{y}}{\partial{x}}
+```
 
+![img](./imgs/loss.drawio.png)
+ + box "A" is activation function. (can just consider it as y=x here)
 
-那么当 $L=MSE(y,y_{label}) = \frac{(y-y_{lable})^2}{n}$ 时，要求 $y$ 对 $L$ 的影响 (输出层的梯度(偏微分)), 则有下面:
+Now, Aussuming there is a 3-layer model, with one node in each layer. When $L=MSE(y,y_{label}) = \frac{(y-y_{lable})^2}{n}$, in order to computing the effect of y on L, we have:
+
 ```math
 \frac{\partial{L}}{\partial{y}} = \frac{2*(y-y_{label})}{n}
 ```
 
-那么 $w_3$ 对 L 的影响
+The the effect of $w_3$ on L:
 ```math
-\frac{\partial{L}}{\partial{w_3}} = \frac{\partial{L}}{\partial{w_3}} * \frac{\partial{y}}{\partial{h_3}} * \frac{\partial{L}}{\partial{y}} = a_2 *  [\frac{\partial{y}}{\partial{h_3}}] * \Delta{y}
+\frac{\partial{L}}{\partial{w_3}} = \frac{\partial{h_3}}{\partial{w_3}} * \frac{\partial{y}}{\partial{h_3}} * \frac{\partial{L}}{\partial{y}} = a_2 *  [\frac{\partial{y}}{\partial{h_3}}] * \Delta{y}
 ```
-+ 思考 1. 能否直接跳过softmax 求导这一步
++ Thinking 1: can we ignore the derivation of "softmax"? 
+  > yes, because softmax is just "amplifying" the differences in y.
 
 
-那么 $w_2$ 对 L 的影响:
+Similar, we get the effect of $w_2$ on L:
 ```math
-\frac{\partial{L}}{\partial{w_2}} = \frac{\partial{h_2}}{\partial{w_2}} * \frac{\partial{a_2}}{\partial{h_2}} * \frac{\partial{h_3}}{\partial{a_2}} * [\frac{\partial{y}}{\partial{h_3}}] * \frac{\partial{L}}{\partial{y}} = a_1 *  A'(h_2) * w_3 * [\frac{\partial{y}}{\partial{h_3}}] * \Delta{y}
+\begin{align*}
+\frac{\partial{L}}{\partial{w_2}} &= \frac{\partial{h_2}}{\partial{w_2}} \cdot \frac{\partial{a_2}}{\partial{h_2}} \cdot \frac{\partial{h_3}}{\partial{a_2}} \cdot \left[\frac{\partial{y}}{\partial{h_3}}\right] \cdot \frac{\partial{L}}{\partial{y}} \\
+&= a_1 \cdot A'(h_2) \cdot w_3 \cdot \left[\frac{\partial{y}}{\partial{h_3}}\right] \cdot \Delta{y}
+\end{align*}
 ```
-+ 思考 2.  对于 Relu 激活函数，反向传播时， 输入是什么？ 为什么可以是 正向的输出？
 
+# More nodes in each layer!
+![img](./imgs/backpropagation.drawio.png)
++ box R: relue
++ box S: softmax
++ sphere: node
++ w: weights
 
-### 当变成多个节点的时候:
-![img](doc/example_6.png)
-
-这里的网络运算可表达为:
+Here, the forward propagation is:
 ```math
 \begin{align}
   \begin{pmatrix}
@@ -57,17 +73,17 @@ y=f(x)= ax+b 为例子， $\frac{dy}{dx} = f'(x) = a $
   w_{11} & w_{21} \\
   w_{12} & w_{22} \\
   \end{pmatrix}
-  =
+  &=
   \begin{pmatrix}
   x_1*w_{11}+ x_2*w_{12} &  x_1*w_{21}+x_2*w_{12} \\
-  \end{pmatrix} 
-  =
+  \end{pmatrix} \\
+  &=
   \begin{pmatrix}
   h_{11} &  h_{12} \\
   \end{pmatrix}
 \end{align}
 ```
-同理 完整过程
+So, the whole network is:
 ``` math
 \begin{align}
   \begin{pmatrix}
@@ -113,9 +129,9 @@ y=f(x)= ax+b 为例子， $\frac{dy}{dx} = f'(x) = a $
 \end{align}
 ```
 
-### 以y1 和 y2开始反向传播
+# Back propagtion
 ```math 
-\frac{\partial{L}}{\partial{y_1}} = y_1 - y_1^{label} \\
+\frac{\partial{L}}{\partial{y_1}} = y_1 - y_1^{label} \\ 
 \frac{\partial{L}}{\partial{y_2}} = y_2 - y_2^{label}
 ```
 $w_{311}$ 对 L 的影响
