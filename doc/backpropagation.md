@@ -130,34 +130,35 @@ So, the whole network is:
 ```
 
 # Back propagtion
+![img](./imgs/backpropagation.drawio.png)
+
 ```math 
 \frac{\partial{L}}{\partial{y_1}} = y_1 - y_1^{label} \\ 
 \frac{\partial{L}}{\partial{y_2}} = y_2 - y_2^{label}
 ```
-$w_{311}$ 对 L 的影响
+effect of $w_{311}$ on L:
 ```math
 \frac{\partial{L}}{\partial{w_{311}}} = 
 \frac{\partial{h_{31}}}{\partial{w_{311}}} * \frac{\partial{y_1}}{\partial{h_{31}}} * \frac{\partial{L}}{\partial{y_1}} = a_{21} * [\frac{\partial{y_1}}{\partial{h_{31}}} ] * ( y_1 - y_1^{label})
 ```
-$w_{312}$ 对 L 的影响
+effect of $w_{312}$ on L:
 ```math
 \frac{\partial{L}}{\partial{w_{312}}} = 
 \frac{\partial{h_{31}}}{\partial{w_{312}}} * \frac{\partial{y_1}}{\partial{h_{31}}} * \frac{\partial{L}}{\partial{y_1}} = a_{22} * [\frac{\partial{y_1}}{\partial{h_{31}}} ] * ( y_1 - y_1^{label})
 ```
-$w_{321}$ 对 L 的影响
+effect of $w_{321}$ on L:
 ```math
 \frac{\partial{L}}{\partial{w_{321}}} = 
 \frac{\partial{h_{32}}}{\partial{w_{321}}} * \frac{\partial{y_2}}{\partial{h_{32}}} * \frac{\partial{L}}{\partial{y_2}} = a_{21} * [\frac{\partial{y_2}}{\partial{h_{32}}} ] * ( y_2 - y_2^{label})
 ```
-$w_{322}$ 对 L 的影响
+effect of $w_{322}$ on L:
 ```math
 \frac{\partial{L}}{\partial{w_{322}}} = 
 \frac{\partial{h_{32}}}{\partial{w_{322}}} * \frac{\partial{y_2}}{\partial{h_{32}}} * \frac{\partial{L}}{\partial{y_2}} = a_{22} * [\frac{\partial{y_2}}{\partial{h_{32}}} ] * ( y_2 - y_2^{label})
 ```
-**暂将Softmax函数考虑为y=x**
-+ 思考为什么可以
 
-那么 上面 第三次的参数 $W_3$ 对 L的影响可以重写成
+Let's assume derivative of softmax is a constnt 1. 
+then, euqations above can be rewritten into:
 ```math 
 \begin{align}
 dw_{311} &= a_{21} * \Delta{y_1} \\  
@@ -166,26 +167,27 @@ dw_{321} &= a_{21} * \Delta{y_2} \\
 dw_{322} &= a_{22} * \Delta{y_1} \\  
 \end{align}
 ```
-将 $dw$ 按 $W_3$ 的矩阵排列
+And we can rewrite it in matrix format:
 ```math
+\begin{align}
 \begin{pmatrix}
 dw_{311} &  dw_{321} \\
 dw_{312} &  dw_{322} \\
 \end{pmatrix}
-= 
+&= 
 \begin{pmatrix}
 a_{21} * \Delta{y_1}  &  a_{21} * \Delta{y_2} \\
 a_{22} * \Delta{y_1} &  a_{22} * \Delta{y_1} \\
-\end{pmatrix}
-=
+\end{pmatrix} \\
+&=
 \begin{pmatrix}
 a_{21} \\ a_{22} \\
 \end{pmatrix}
 *
 \begin{pmatrix}
 \Delta{y_{1}} && \Delta{y_{2}} \\
-\end{pmatrix}
-= 
+\end{pmatrix} \\
+&= 
 \begin{pmatrix}
 a_{21} & a_{22} \\
 \end{pmatrix}^T
@@ -193,9 +195,12 @@ a_{21} & a_{22} \\
 \begin{pmatrix}
 \Delta{y_{1}} && \Delta{y_{2}} \\
 \end{pmatrix}
+\end{align}
 ```
 
-现计算 $w_{211}，w_{212}， w_{221}， w_{222}$ 对 L的影响 （1）:
+Now, let's compute the effect of $w_{211}，w_{212}， w_{221}， w_{222}$ on L:
+![img](./imgs/backpropagation.drawio.png)
+
 ```math
 \frac{\partial{L}}{\partial{w_{211}}} = \frac{\partial{h_{21}}}{\partial{w_{211}}} * \frac{\partial{a_{21}}}{\partial{h_{21}}} * \frac{\partial{L}}{\partial{a_{21}}} = a_{11} * Relu'(h_{21}) *  \frac{\partial{L}}{\partial{a_{21}}}  = dw_{211} \\  
 ```
@@ -208,7 +213,7 @@ a_{21} & a_{22} \\
 ```math
 \frac{\partial{L}}{\partial{w_{222}}} = \frac{\partial{h_{22}}}{\partial{w_{222}}} * \frac{\partial{a_{22}}}{\partial{h_{22}}} * \frac{\partial{L}}{\partial{a_{22}}} = a_{12} * Relu'(h_{22}) * \frac{\partial{L}}{\partial{a_{22}}} =  dw_{222}
 ```
-重写成:
+Similar, rewrite into matrix format:
 ``` math
 \begin{align}
   \begin{pmatrix}
@@ -244,16 +249,16 @@ a_{21} & a_{22} \\
 \end{align}
 
 ```
-+ **或者直接理解为向量乘法**
 
-**那么 $\frac{\partial{L}}{\partial{a_{21}}}$, $\frac{\partial{L}}{\partial{a_{22}}}$ 怎么算？**
+**So, how to get $\frac{\partial{L}}{\partial{a_{21}}}$, $\frac{\partial{L}}{\partial{a_{22}}}$？**
+![img](./imgs/backpropagation.drawio.png)
 ```math 
 \frac{\partial{L}}{\partial{a_{21}}} = \frac{\partial{h_{31}}}{\partial{a_{21}}} * \frac{\partial{y_{1}}}{\partial{h_{31}}} * \frac{\partial{L}}{\partial{y_{1}}}  + \frac{\partial{h_{32}}}{\partial{a_{21}}}* \frac{\partial{y_{2}}}{\partial{h_{32}}} * \frac{\partial{L}}{\partial{y_{2}}}= w_{311} * 1 * \Delta{y_1} + w_{321} * 1 * \Delta{y_2} \\
 ```
 ```math 
 \frac{\partial{L}}{\partial{a_{22}}} = \frac{\partial{h_{31}}}{\partial{a_{22}}} * \frac{\partial{y_1}}{\partial{h_{31}}} * \frac{\partial{L}}{\partial{y_{1}}}  + \frac{\partial{h_{32}}}{\partial{a_{22}}} * \frac{\partial{y_{2}}}{\partial{a_{32}}}* \frac{\partial{L}}{\partial{y_{2}}} = w_{312} * 1 * \Delta{y_{1}} + w_{322} * 1 * \Delta{y_{2}}
 ```
-所以
+Therefore:
 ```math
 \begin{pmatrix}
 \frac{\partial{L}}{\partial{a_{21}}} & \frac{\partial{L}}{\partial{a_{22}}} 
@@ -273,7 +278,7 @@ w_{321} & w_{322}
 \end{pmatrix}
 ```
 
-所以 $W_2$ 有
+Thus $W_2$:
 ```math
 \begin{pmatrix}
 dw_{211} &  dw_{221} \\
@@ -283,7 +288,7 @@ dw_{212} &  dw_{222} \\
 \begin{pmatrix}
 a_{11} &  a_{12} \\
 \end{pmatrix}^T
-* 
+* \\
 {
 \begin{pmatrix}
 \Delta{y_1} & \Delta{y_2} \\
@@ -301,7 +306,7 @@ Relu'(h_{21})  &  0  \\
 \end{pmatrix} 
 ```
 
-总结推理:
+Summary and reasoning, we can get $W_1$:
 ```math
 \begin{align}
 dW_3 &= A_{2}^T * L \\

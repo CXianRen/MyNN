@@ -98,6 +98,24 @@ namespace Potato::Op
     }
   }
 
+  /**
+   * a  times b
+   * T: buffer type
+   * a : input matrix
+   * b : input matrix
+   * result: output matrix
+   */
+
+  template <typename T>
+  void times(const T &a, const T &b, T &result, const int size)
+  {
+#pragma omp parallel for collapse(1)
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] * b[i];
+    }
+  }
+
   /*
    * transpose a matrix
    * T: buffer type

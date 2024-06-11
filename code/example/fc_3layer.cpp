@@ -73,7 +73,7 @@ int main(int argc, char **argv)
         static std::vector<float> Loss_m(BATCH_SIZE * OUTPUT_NODE);
         diff<std::vector<float>, float>(
             yp, y_lable, Loss_m, BATCH_SIZE * OUTPUT_NODE);
-        // dz3 = a2.T * Loss_m
+        // dz3 =L,  dW3 = a2.T * Loss_m
         static std::vector<float> dW3(L2_NODE * OUTPUT_NODE);
         static std::vector<float> a2_T(L2_NODE * BATCH_SIZE);
         transpose<std::vector<float>, float>(a2, BATCH_SIZE, L2_NODE, a2_T);
@@ -87,6 +87,7 @@ int main(int argc, char **argv)
         dot<std::vector<float>, float>(
             Loss_m, output_node_T, dz2, BATCH_SIZE, OUTPUT_NODE, L2_NODE);
         reluPrime<std::vector<float>>(a2, a2, BATCH_SIZE * L2_NODE);
+        times<std::vector<float>>(dz2, a2, dz2, BATCH_SIZE * L2_NODE);
 
         // dW2 = a1.T * dz2
         static std::vector<float> a1_T(L1_NODE * BATCH_SIZE);
@@ -102,6 +103,7 @@ int main(int argc, char **argv)
         dot<std::vector<float>, float>(
             dz2, l2_node_T, dz1, BATCH_SIZE, L2_NODE, L1_NODE);
         reluPrime<std::vector<float>>(a1, a1, BATCH_SIZE * L1_NODE);
+        times<std::vector<float>>(dz1, a1, dz1, BATCH_SIZE * L1_NODE);
 
         // dW1 = input.T * dz1
         static std::vector<float> input_node_T(INPUT_NODE * BATCH_SIZE);
