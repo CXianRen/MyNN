@@ -311,10 +311,11 @@ Summary and reasoning, we can get $W_1$:
 \begin{align}
 dW_3 &= A_{2}^T * L \\
 dW_2 &= A_{1}^T * L * W_{3}^T * Relu'(Det(h_2)) \\ 
-dW_1 &= A_{1}^T * (L * W_{3}^T * Relu'(Det(h_2))) * W_{2}^T * Relu'(Det(h_1)) \\ 
+dW_1 &= Input^T * (L * W_{3}^T * Relu'(Det(h_2))) * W_{2}^T * Relu'(Det(h_1)) \\ 
 \end{align}
 ```
-本质上 输出层是一个参数为 如下的 连接层:
+
+Fundmentally, output layer is fully connected layer with weights as follow:
 ```math
 \begin{pmatrix}
 h_{31} & h_{32} \\
@@ -330,19 +331,14 @@ y_1 & y_2 \\
 \end{pmatrix}
 ```
 
-所以 进一步 有
+Finally! we get:
 ```math
 \begin{align}
 dz_3 &= L \\
 dW_3 &= A_{2}^T * dz_3 \\
-dz_2 & = L  * W_{3}^T * Relu'(Det(h_2)) \\
+dz_2 & = dz_3  * W_{3}^T * Relu'(Det(h_2)) \\
 dW_2 &= A_{1}^T * dz_2 \\ 
 dz_1 &= dz_2 * W_{2}^T * Relu'(Det(h_1)) \\
-dW_1 &= A_{1}^T * dz_1\\ 
+dW_1 &= Input^T * dz_1\\ 
 \end{align}
 ```
-
-+ TODO 参数层初始值的选择, 怎么初始化，初始化的很大会怎么样子?
-+ TODO 输入层的归一化, 为什么要, 没有会怎么样子
-+ TODO Relu函数在 0 处的导数为什么时0，不是1?，如果时1会有什么影响?
-+ TODO fix MES loss 的计算: 最后应该时除以batch size

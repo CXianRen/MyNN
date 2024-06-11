@@ -5,6 +5,11 @@
 
 #include <chrono>
 
+/**
+ * the mathamatical derivation is provided in the document:
+ * doc/backpropagation.md
+ */
+
 #define BATCH_SIZE 256
 #define INPUT_NODE 784
 #define L1_NODE 128

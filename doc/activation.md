@@ -8,8 +8,7 @@
 + What are the types of activation functions?
   + sigmoid, tanh, ReLu, Leaky ReLU, ELU, Maxout,
 
-https://zhuanlan.zhihu.com/p/32824193
-
+[REF](https://zhuanlan.zhihu.com/p/32824193)
 
 + Why ReLu function is nonlinear?
 ```math
@@ -20,14 +19,14 @@ ReLU' = \begin{cases}
   1 & \text{if } x > 0
 \end{cases}
 ```
-https://zhuanlan.zhihu.com/p/405068757#%E4%B8%80%E3%80%81%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90
+[REF](https://zhuanlan.zhihu.com/p/405068757#%E4%B8%80%E3%80%81%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90)
 
 It's the stacking and addition operations that give ReLU networks their non-linearity.
 
 # Activation for output layer
 
 + What are the types of activation？
-https://www.zhihu.com/question/462549835
+[REF](https://www.zhihu.com/question/462549835)
 
 + common: sigmod, softmax.
 ```math 
