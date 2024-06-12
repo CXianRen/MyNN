@@ -78,11 +78,14 @@ Thus, we get:
 Similary we can get that for $F_{12}, F_{21}, F_{22}$:
 
 ```math
-O_{11} = X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
-O_{12} = X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
-O_{21} = X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
-O_{22} = X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
+\begin{align}
+O_{11} &= X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
+O_{12} &= X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
+O_{21} &= X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
+O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
+\end{align}
 ```
+
 
 ``` math
 \frac{\partial{L}}{\partial{F_{11}}} = 
@@ -90,27 +93,23 @@ O_{22} = X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
 \frac{\partial {L}}{\partial{O_{12}}} X_{12} +
 \frac{\partial {L}}{\partial{O_{21}}} X_{21} +
 \frac{\partial {L}}{\partial{O_{22}}} X_{22} \\
-
-
 \frac{\partial{L}}{\partial{F_{12}}} = 
 \frac{\partial {L}}{\partial{O_{11}}} X_{12} + 
 \frac{\partial {L}}{\partial{O_{12}}} X_{13} +
 \frac{\partial {L}}{\partial{O_{21}}} X_{22} +
 \frac{\partial {L}}{\partial{O_{22}}} X_{23} \\
-
 \frac{\partial{L}}{\partial{F_{21}}} = 
 \frac{\partial {L}}{\partial{O_{11}}} X_{21} + 
 \frac{\partial {L}}{\partial{O_{12}}} X_{22} +
 \frac{\partial {L}}{\partial{O_{21}}} X_{31} +
 \frac{\partial {L}}{\partial{O_{22}}} X_{32} \\
-
 \frac{\partial{L}}{\partial{F_{22}}} = 
 \frac{\partial {L}}{\partial{O_{11}}} X_{22} + 
 \frac{\partial {L}}{\partial{O_{12}}} X_{23} +
 \frac{\partial {L}}{\partial{O_{21}}} X_{32} +
 \frac{\partial {L}}{\partial{O_{22}}} X_{33} \\
-
 ```
+
 We can see it is a convolution operation!
 ![partial_L_F](./imgs/partial_L_F.png)
 
