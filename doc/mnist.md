@@ -1,6 +1,4 @@
 ### Dataset
-MNIST（Modified National Institute of Standards and Technology）数据集是一个经典的手写数字识别数据集，包含了大量的手写数字图片。
-
 MNIST is a classic handwritten digit recongnition dataset, containing a number of images of handwritten digits.  
 
 
