@@ -1,14 +1,14 @@
-
 #include "test/test_common.h"
 
 #include "inc/common.h"
 #include "inc/core.h"
 
+
 /*
- * to test diff operation
+ * to test add operation
  */
 
-std::string test_name = "Test diff operation";
+std::string test_name = "Test add operation";
 
 int main(int argc, char **argv)
 {
@@ -20,9 +20,9 @@ int main(int argc, char **argv)
 
   float *result = new float[6];
 
-  float ground_truth[6] = {0, 0, 0, 0, 0, 0};
+  float ground_truth[6] = {2, 4, 6, 8, 10, 12};
 
-  Potato::Op::diff<float *>(a, b, result, 6);
+  Potato::Op::add<float *>(a, b, result, 6);
 
   // check the result
   for (int i = 0; i < 6; i++)

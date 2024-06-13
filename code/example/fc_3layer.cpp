@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 
         // back propagation
         static std::vector<float> Loss_m(BATCH_SIZE * OUTPUT_NODE);
-        diff<std::vector<float>, float>(
+        diff<std::vector<float>>(
             yp, y_lable, Loss_m, BATCH_SIZE * OUTPUT_NODE);
         // dz3 =L,  dW3 = a2.T * Loss_m
         static std::vector<float> dW3(L2_NODE * OUTPUT_NODE);
@@ -119,13 +119,13 @@ int main(int argc, char **argv)
 
         // update W1 W2 W3
         factor<std::vector<float>, float>(dW3, LEARNING_RATE, dW3, L2_NODE * OUTPUT_NODE);
-        diff<std::vector<float>, float>(output_node, dW3, output_node, L2_NODE * OUTPUT_NODE);
+        diff<std::vector<float>>(output_node, dW3, output_node, L2_NODE * OUTPUT_NODE);
 
         factor<std::vector<float>, float>(dW2, LEARNING_RATE, dW2, L1_NODE * L2_NODE);
-        diff<std::vector<float>, float>(l2_node, dW2, l2_node, L1_NODE * L2_NODE);
+        diff<std::vector<float>>(l2_node, dW2, l2_node, L1_NODE * L2_NODE);
 
         factor<std::vector<float>, float>(dW1, LEARNING_RATE, dW1, INPUT_NODE * L1_NODE);
-        diff<std::vector<float>, float>(l1_node, dW1, l1_node, INPUT_NODE * L1_NODE);
+        diff<std::vector<float>>(l1_node, dW1, l1_node, INPUT_NODE * L1_NODE);
 
         if (echo % 100 == 0)
         {

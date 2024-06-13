@@ -76,13 +76,27 @@ namespace Potato::Op
    * result: output matrix
    * size: size of the matrix
    */
-  template <typename T, typename T_e>
+  template <typename T>
   void diff(const T &a, const T &b, T &result, const int size)
   {
 #pragma omp parallel for collapse(1)
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] - b[i];
+    }
+  }
+
+  /**
+   * add two matrix
+   *
+   */
+  template <typename T>
+  void add(const T &a, const T &b, T &result, const int size)
+  {
+#pragma omp parallel for collapse(1)
+    for (int i = 0; i < size; i++)
+    {
+      result[i] = a[i] + b[i];
     }
   }
 
@@ -167,6 +181,29 @@ namespace Potato::Op
       result[i] = (a[i] - min_x) / (max_x - min_x);
     }
   }
+
+  // /**
+  //  * img2col
+  //  * convert a 3d tensor to a 2d tensor
+  //  * see doc for more info
+  //  */
+  // template <typename T>
+  // void img2col(const T &a, T &result,
+  //              const int batch_size,
+  //              const int channels, const int height, const int width,
+  //              const int kernel_size, const int stride)
+  // {
+  //   // we handle padding before calling this function
+  //   int out_height = (height - kernel_size) / stride + 1;
+  //   int out_width = (width - kernel_size) / stride + 1;
+
+  //   // each step
+  //   for (int i = 0 ; i < out_height * out_width; i++){
+  //     // each kernel channel
+  //     for (int j = 0; j < kernel_size * kernel_size * channels; j++){
+  //     }
+  //   }
+  // }
 
 } // namespace Potato::Op
 
