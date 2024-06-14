@@ -40,12 +40,21 @@ int main(int argc, char **argv)
 
     std::vector<float> l1_node(INPUT_NODE * L1_NODE);
     Potato::helper::random_init(l1_node, INPUT_NODE * L1_NODE);
-
+    // l1 bias
+    std::vector<float> l1_bias(L1_NODE);
+    Potato::helper::random_init(l1_bias, L1_NODE);
+    
     std::vector<float> l2_node(L1_NODE * L2_NODE);
     Potato::helper::random_init(l2_node, L1_NODE * L2_NODE);
-
+    // l2 bias
+    std::vector<float> l2_bias(L2_NODE);
+    Potato::helper::random_init(l2_bias, L2_NODE);
+    
     std::vector<float> output_node(L2_NODE * OUTPUT_NODE);
     Potato::helper::random_init(output_node, L2_NODE * OUTPUT_NODE);
+    // output bias
+    std::vector<float> output_bias(OUTPUT_NODE);
+    Potato::helper::random_init(output_bias, OUTPUT_NODE);
 
     // time measurement
     auto start_time = std::chrono::high_resolution_clock::now();
@@ -62,16 +71,19 @@ int main(int argc, char **argv)
         static std::vector<float> a1(BATCH_SIZE * L1_NODE);
         dot<std::vector<float>, float>(
             input_node, l1_node, a1, BATCH_SIZE, INPUT_NODE, L1_NODE);
+        add_vec_to_batch_vec<std::vector<float>>(a1, l1_bias, a1, BATCH_SIZE, L1_NODE);
         relu<std::vector<float>>(a1, a1, BATCH_SIZE * L1_NODE);
 
         static std::vector<float> a2(BATCH_SIZE * L2_NODE);
         dot<std::vector<float>, float>(
             a1, l2_node, a2, BATCH_SIZE, L1_NODE, L2_NODE);
+        add_vec_to_batch_vec<std::vector<float>>(a2, l2_bias, a2, BATCH_SIZE, L2_NODE);
         relu<std::vector<float>>(a2, a2, BATCH_SIZE * L2_NODE);
 
         static std::vector<float> yp(BATCH_SIZE * OUTPUT_NODE);
         dot<std::vector<float>, float>(
             a2, output_node, yp, BATCH_SIZE, L2_NODE, OUTPUT_NODE);
+        add_vec_to_batch_vec<std::vector<float>>(yp, output_bias, yp, BATCH_SIZE, OUTPUT_NODE);
         softmax<std::vector<float>, float>(yp, yp, BATCH_SIZE, OUTPUT_NODE);
 
         // back propagation
@@ -126,6 +138,16 @@ int main(int argc, char **argv)
 
         factor<std::vector<float>, float>(dW1, LEARNING_RATE, dW1, INPUT_NODE * L1_NODE);
         diff<std::vector<float>>(l1_node, dW1, l1_node, INPUT_NODE * L1_NODE);
+
+        // update bias
+        factor<std::vector<float>, float>(Loss_m, LEARNING_RATE, Loss_m, BATCH_SIZE * OUTPUT_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(output_bias, Loss_m, output_bias, BATCH_SIZE, OUTPUT_NODE);
+
+        factor<std::vector<float>, float>(dz2, LEARNING_RATE, dz2, BATCH_SIZE * L2_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(l2_bias, dz2, l2_bias, BATCH_SIZE, L2_NODE);
+
+        factor<std::vector<float>, float>(dz1, LEARNING_RATE, dz1, BATCH_SIZE * L1_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(l1_bias, dz1, l1_bias, BATCH_SIZE, L1_NODE);
 
         if (echo % 100 == 0)
         {

@@ -2,6 +2,7 @@
 #define __POTATO_CORE_H__
 
 #include "error.h"
+
 #include <cmath>
 #include <algorithm>
 
@@ -97,6 +98,46 @@ namespace Potato::Op
     for (int i = 0; i < size; i++)
     {
       result[i] = a[i] + b[i];
+    }
+  }
+
+  /**
+   * add a vector to a batch of vectors
+   *
+   */
+  template <typename T>
+  void add_vec_to_batch_vec(const T &a, const T &b, T &result, const int batch_size, const int size)
+  {
+    int cols = size / batch_size;
+#pragma omp parallel for collapse(2)
+    for (int i = 0; i < batch_size; i++)
+    {
+      for (int j = 0; j < cols; j++)
+      {
+        result[acc2d<T>(i, j, cols)] = a[acc2d<T>(i, j, cols)] + b[j];
+      }
+    }
+  }
+
+  /**
+   * add a batch of vectors to a vector
+   */
+
+  template <typename T>
+  void add_batch_vec_to_vec(const T &a, const T &b, T &result, const int batch_size, const int size)
+  {
+    int cols = size / batch_size;
+
+#pragma omp parallel for collapse(1)
+    for (int j = 0; j < cols; j++)
+    {
+      using ElementType = typename std::remove_reference<decltype(result[0])>::type;
+      ElementType sum = b[j];
+      for (int i = 0; i < batch_size; i++)
+      {
+        sum += a[acc2d<T>(i, j, cols)];
+      }
+      result[j] = sum;
     }
   }
 
