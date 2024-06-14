@@ -106,9 +106,8 @@ namespace Potato::Op
    *
    */
   template <typename T>
-  void add_vec_to_batch_vec(const T &a, const T &b, T &result, const int batch_size, const int size)
+  void add_vec_to_batch_vec(const T &a, const T &b, T &result, const int batch_size, const int cols)
   {
-    int cols = size / batch_size;
 #pragma omp parallel for collapse(2)
     for (int i = 0; i < batch_size; i++)
     {
@@ -124,9 +123,8 @@ namespace Potato::Op
    */
 
   template <typename T>
-  void add_batch_vec_to_vec(const T &a, const T &b, T &result, const int batch_size, const int size)
+  void add_batch_vec_to_vec(const T &a, const T &b, T &result, const int batch_size, const int cols)
   {
-    int cols = size / batch_size;
 
 #pragma omp parallel for collapse(1)
     for (int j = 0; j < cols; j++)

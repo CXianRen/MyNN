@@ -43,13 +43,13 @@ int main(int argc, char **argv)
     // l1 bias
     std::vector<float> l1_bias(L1_NODE);
     Potato::helper::random_init(l1_bias, L1_NODE);
-    
+
     std::vector<float> l2_node(L1_NODE * L2_NODE);
     Potato::helper::random_init(l2_node, L1_NODE * L2_NODE);
     // l2 bias
     std::vector<float> l2_bias(L2_NODE);
     Potato::helper::random_init(l2_bias, L2_NODE);
-    
+
     std::vector<float> output_node(L2_NODE * OUTPUT_NODE);
     Potato::helper::random_init(output_node, L2_NODE * OUTPUT_NODE);
     // output bias
@@ -140,14 +140,14 @@ int main(int argc, char **argv)
         diff<std::vector<float>>(l1_node, dW1, l1_node, INPUT_NODE * L1_NODE);
 
         // update bias
-        factor<std::vector<float>, float>(Loss_m, LEARNING_RATE, Loss_m, BATCH_SIZE * OUTPUT_NODE);
-        add_batch_vec_to_vec<std::vector<float>>(output_bias, Loss_m, output_bias, BATCH_SIZE, OUTPUT_NODE);
+        factor<std::vector<float>, float>(Loss_m, -LEARNING_RATE, Loss_m, BATCH_SIZE * OUTPUT_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(Loss_m, output_bias, output_bias, BATCH_SIZE, OUTPUT_NODE);
 
-        factor<std::vector<float>, float>(dz2, LEARNING_RATE, dz2, BATCH_SIZE * L2_NODE);
-        add_batch_vec_to_vec<std::vector<float>>(l2_bias, dz2, l2_bias, BATCH_SIZE, L2_NODE);
+        factor<std::vector<float>, float>(dz2, -LEARNING_RATE, dz2, BATCH_SIZE * L2_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(dz2, l2_bias, l2_bias, BATCH_SIZE, L2_NODE);
 
-        factor<std::vector<float>, float>(dz1, LEARNING_RATE, dz1, BATCH_SIZE * L1_NODE);
-        add_batch_vec_to_vec<std::vector<float>>(l1_bias, dz1, l1_bias, BATCH_SIZE, L1_NODE);
+        factor<std::vector<float>, float>(dz1, -LEARNING_RATE, dz1, BATCH_SIZE * L1_NODE);
+        add_batch_vec_to_vec<std::vector<float>>(dz1, l1_bias, l1_bias, BATCH_SIZE, L1_NODE);
 
         if (echo % 100 == 0)
         {

@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 
   float ground_truth[6] = {2, 4, 4, 6, 6, 8};
 
-  Potato::Op::add_vec_to_batch_vec<float *>(a, b, result, batch, 6);
+  Potato::Op::add_vec_to_batch_vec<float *>(a, b, result, batch, 2);
 
   // check the result
   for (int i = 0; i < 6; i++)

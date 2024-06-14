@@ -20,7 +20,7 @@ int main(int argc, char **argv)
   float *result = new float[2];
   float ground_truth[2] = {10, 14};
 
-  Potato::Op::add_batch_vec_to_vec<float *>(a, b, result, batch, 6);
+  Potato::Op::add_batch_vec_to_vec<float *>(a, b, result, batch, 2);
 
   // check the result
   for (int i = 0; i < 2; i++)
