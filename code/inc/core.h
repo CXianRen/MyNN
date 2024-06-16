@@ -221,28 +221,67 @@ namespace Potato::Op
     }
   }
 
-  // /**
-  //  * img2col
-  //  * convert a 3d tensor to a 2d tensor
-  //  * see doc for more info
-  //  */
-  // template <typename T>
-  // void img2col(const T &a, T &result,
-  //              const int batch_size,
-  //              const int channels, const int height, const int width,
-  //              const int kernel_size, const int stride)
-  // {
-  //   // we handle padding before calling this function
-  //   int out_height = (height - kernel_size) / stride + 1;
-  //   int out_width = (width - kernel_size) / stride + 1;
+  /**
+   * img2cols
+   * convert a 3d tensor to a 2d tensor
+   * see doc for more info
+   * @N : batch size
+   * @C : number of channels
+   * @H : height
+   * @W : width
+   * @P : padding
+   */
+  template <typename T>
+  void img2cols(const T &a, T &result,
+                const int N, const int C, const int H, const int W,
+                const int K, const int S, const int P = 0)
+  {
+    using ElementType = typename std::remove_reference<decltype(result[0])>::type;
 
-  //   // each step
-  //   for (int i = 0 ; i < out_height * out_width; i++){
-  //     // each kernel channel
-  //     for (int j = 0; j < kernel_size * kernel_size * channels; j++){
-  //     }
-  //   }
-  // }
+    int out_h = (H + 2 * P - K) / S + 1;
+    int out_w = (W + 2 * P - K) / S + 1;
+
+    int cols = C * K * K;
+    for (int n = 0; n < N; n++)
+    {
+      for (int c = 0; c < C; c++)
+      {
+        // ignore the remaining part
+        for (int h = -P; h + K < H + P; h += S)
+        {
+          for (int w = -P; w + K < W + P; w += S)
+          {
+            // result row index
+            int r_i = (h + P) / S * out_w + (w + P) / S;
+
+            for (int k_i = 0; k_i < K; k_i++)
+            {
+              for (int k_j = 0; k_j < K; k_j++)
+              {
+                int a_i = h + k_i;
+                int a_j = w + k_j;
+                ElementType a_ij = 0;
+                // not the paded area
+                if (a_i >= 0 && a_i < H && a_j >= 0 && a_j < W)
+                {
+                  int a_idx = acc2d<T>(a_i, a_j, W);
+                  // which batch
+                  int offset = N * C * H * W;
+                  // which channel
+                  offset += c * H * W;
+                  // which pixel in the channel
+                  a_ij = a[offset + a_idx];
+                }
+                int r_j = k_i * K + k_j + c * K * K;
+                int result_idx = acc2d<T>(r_i - 1, r_j, cols);
+                result[result_idx] = a_ij;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
 } // namespace Potato::Op
 
