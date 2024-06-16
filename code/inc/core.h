@@ -238,18 +238,18 @@ namespace Potato::Op
   {
     using ElementType = typename std::remove_reference<decltype(result[0])>::type;
 
-    int out_h = (H + 2 * P - K) / S + 1;
     int out_w = (W + 2 * P - K) / S + 1;
 
     int cols = C * K * K;
+#pragma omp parallel for collapse(4)
     for (int n = 0; n < N; n++)
     {
       for (int c = 0; c < C; c++)
       {
         // ignore the remaining part
-        for (int h = -P; h + K < H + P; h += S)
+        for (int h = -P; h < H + P + 1 - K; h += S)
         {
-          for (int w = -P; w + K < W + P; w += S)
+          for (int w = -P; w < W + P + 1 - K; w += S)
           {
             // result row index
             int r_i = (h + P) / S * out_w + (w + P) / S;
@@ -266,14 +266,14 @@ namespace Potato::Op
                 {
                   int a_idx = acc2d<T>(a_i, a_j, W);
                   // which batch
-                  int offset = N * C * H * W;
+                  int offset = n * C * H * W;
                   // which channel
                   offset += c * H * W;
                   // which pixel in the channel
                   a_ij = a[offset + a_idx];
                 }
                 int r_j = k_i * K + k_j + c * K * K;
-                int result_idx = acc2d<T>(r_i - 1, r_j, cols);
+                int result_idx = acc2d<T>(r_i, r_j, cols);
                 result[result_idx] = a_ij;
               }
             }

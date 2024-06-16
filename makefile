@@ -56,7 +56,7 @@ $(BUILD_DIR)/$(CORE_DIR)/%.o: $(ROOT_PATH)/$(CORE_DIR)/%.cpp
 test: $(TEST_PROGAMS)
 
 $(BUILD_DIR)/$(TEST_DIR)/%: $(ROOT_PATH)/$(TEST_DIR)/%.cpp $(CORE_OBJ_FILES)
-	$(CC) $(CFLAGS) $(TEST_INC) $(CORE_INC) $< $(CORE_OBJ_FILES) -o $@
+	$(CC) $(CFLAGS) -O0 -g  $(TEST_INC) $(CORE_INC) $< $(CORE_OBJ_FILES) -o $@
 
 run_test: $(TEST_PROGAMS)
 	$(info TEST_PROGAMS: $(TEST_PROGAMS))
