@@ -186,6 +186,7 @@ O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
 ```
 
 Thus:
+
 ```math 
 
 \begin{align}
@@ -226,10 +227,9 @@ Thus:
 &= \frac{\partial{L}}{\partial{O_{22}}} * F_{22}
 
 \end{align}
-
 ```
 
 It actually is a convolution operation! Here is the compelet format:
 
 
-
+![full conv](./imgs/full_conv.drawio.png)
