@@ -21,10 +21,12 @@ And a smaller sacle example:
 !Now, it is same to a fc network. 
 
 ```math
-O_{11} = X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
-O_{12} = X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
-O_{21} = X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
-O_{22} = X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22}
+\begin{align}
+O_{11} &= X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
+O_{12} &= X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
+O_{21} &= X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
+O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22}
+\end{align}
 ```
 
 # what if there is more than one channel?
@@ -159,4 +161,75 @@ We can see it is a convolution operation!
 
 Now how to compute $\frac{\partial{L}}{\partial{O}}$?
 
-![2d_loss](./imgs/loss_2d.drawio.png)
+![2d_loss](./imgs/local_gradient.drawio.png)
+
+
+From this figure, we see:
+
+```math
+  \frac{\partial{L}}{\partial{O_1}} = \frac{\partial{L}}{\partial{X_2}} 
+```
+
+This means, the gradient of L with repsect to the output of current layer is the gradient of L with repsect to the X in next level.
+
+So, in other word, we need to compute the graident of O respect to the X in each layer for the previous layer. 
+
+Then, how?
+
+```math
+\begin{align}
+O_{11} &= X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
+O_{12} &= X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
+O_{21} &= X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
+O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
+\end{align}
+```
+
+Thus:
+```math 
+
+\begin{align}
+
+\frac{\partial{L}}{\partial{X_{11}}}
+&=  \frac{\partial{L}}{\partial{O_{11}}} * F_{11}  \\
+
+
+\frac{\partial{L}}{\partial{X_{12}}} 
+&=  \frac{\partial{L}}{\partial{O_{11}}} * F_{12}  + 
+\frac{\partial{L}}{\partial{O_{12}}} * F_{11} \\
+
+\frac{\partial{L}}{\partial{X_{13}}} 
+&= \frac{\partial{L}}{\partial{O_{12}}} * F_{12}  \\
+
+\frac{\partial{L}}{\partial{X_{21}}} 
+&= \frac{\partial{L}}{\partial{O_{11}}} * F_{21}  +
+\frac{\partial{L}}{\partial{O_{21}}} * F_{11} \\
+
+\frac{\partial{L}}{\partial{X_{22}}} 
+&= \frac{\partial{L}}{\partial{O_{11}}} * F_{22} +
+\frac{\partial{L}}{\partial{O_{12}}} * F_{21} +
+\frac{\partial{L}}{\partial{O_{21}}} * F_{12} +
+\frac{\partial{L}}{\partial{O_{22}}} * F_{11} \\
+
+\frac{\partial{L}}{\partial{X_{23}}} 
+&= \frac{\partial{L}}{\partial{O_{12}}} * F_{22} + 
+\frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
+
+\frac{\partial{L}}{\partial{X_{31}}}
+&=  \frac{\partial{L}}{\partial{O_{21}}} * F_{21} \\
+
+\frac{\partial{L}}{\partial{X_{32}}}
+&=  \frac{\partial{L}}{\partial{O_{21}}} * F_{22} + 
+\frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
+
+\frac{\partial{L}}{\partial{X_{33}}}
+&= \frac{\partial{L}}{\partial{O_{22}}} * F_{22}
+
+\end{align}
+
+```
+
+It actually is a convolution operation! Here is the compelet format:
+
+
+
