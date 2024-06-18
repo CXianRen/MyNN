@@ -32,4 +32,16 @@ inline bool compare_float(T a, T b, T epsilon = 1e-6)
   return std::abs(a - b) < epsilon;
 }
 
+
+template <typename T>
+void print_matrix(const T & a, int M, int N){
+  for (int i = 0; i<M; i++){
+    for (int j = 0; j<N; j++){
+      // code for printing matrix element
+      std::cout << a[i*N + j] << " ";
+    }
+    std::cout << std::endl;
+  }
+}
+
 #endif // __POTATO_TEST_COMMON_H__
