@@ -8,7 +8,6 @@
 
 #include <omp.h>
 
-template <typename T>
 inline int acc2d(int i, int j, int cols)
 {
   return i * cols + j;
@@ -40,9 +39,9 @@ namespace Potato::Op
         T_e sum = 0;
         for (int k = 0; k < N; k++)
         {
-          sum += a[acc2d<T>(i, k, N)] * b[acc2d<T>(k, j, K)];
+          sum += a[acc2d(i, k, N)] * b[acc2d(k, j, K)];
         }
-        result[acc2d<T>(i, j, K)] = sum;
+        result[acc2d(i, j, K)] = sum;
       }
     }
   }
@@ -63,8 +62,8 @@ namespace Potato::Op
             for (int k = kt; k < std::min(kt + tile_size, N); k++)
               for (int j = jt; j < std::min(jt + tile_size, K); j++)
               {
-                result[acc2d<T>(i, j, K)] +=
-                    a[acc2d<T>(i, k, N)] * b[acc2d<T>(k, j, K)];
+                result[acc2d(i, j, K)] +=
+                    a[acc2d(i, k, N)] * b[acc2d(k, j, K)];
               }
   }
 
@@ -113,7 +112,7 @@ namespace Potato::Op
     {
       for (int j = 0; j < cols; j++)
       {
-        result[acc2d<T>(i, j, cols)] = a[acc2d<T>(i, j, cols)] + b[j];
+        result[acc2d(i, j, cols)] = a[acc2d(i, j, cols)] + b[j];
       }
     }
   }
@@ -133,7 +132,7 @@ namespace Potato::Op
       ElementType sum = b[j];
       for (int i = 0; i < batch_size; i++)
       {
-        sum += a[acc2d<T>(i, j, cols)];
+        sum += a[acc2d(i, j, cols)];
       }
       result[j] = sum;
     }
@@ -189,7 +188,7 @@ namespace Potato::Op
     {
       for (int j = 0; j < cols; j++)
       {
-        result[acc2d<T>(j, i, rows)] = a[acc2d<T>(i, j, cols)];
+        result[acc2d(j, i, rows)] = a[acc2d(i, j, cols)];
       }
     }
   }
@@ -264,7 +263,7 @@ namespace Potato::Op
                 // not the paded area
                 if (a_i >= 0 && a_i < H && a_j >= 0 && a_j < W)
                 {
-                  int a_idx = acc2d<T>(a_i, a_j, W);
+                  int a_idx = acc2d(a_i, a_j, W);
                   // which batch
                   int offset = n * C * H * W;
                   // which channel
@@ -273,11 +272,37 @@ namespace Potato::Op
                   a_ij = a[offset + a_idx];
                 }
                 int r_j = k_i * K + k_j + c * K * K;
-                int result_idx = acc2d<T>(r_i, r_j, cols);
+                int result_idx = acc2d(r_i, r_j, cols);
                 result[result_idx] = a_ij;
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  /**
+   * flip a filter
+   * @a : input filter
+   * @result : output filter
+   * @C : number of channels
+   * @K : kernel size
+   * @K2 : kernel size squared
+   */
+  template <typename T>
+  void flipfilter(
+      const T &a, T &result,
+      const int C, const int K)
+  {
+// #pragma omp parallel for collapse(1)
+    for (int c = 0; c < C; c++)
+    {
+      for (int i = 0; i < K; i++)
+      {
+        for (int j = 0; j < K; j++)
+        {
+          result[acc2d(i, j, K)] = a[acc2d(K - i - 1, K - j - 1, K)];
         }
       }
     }
