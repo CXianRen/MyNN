@@ -1,4 +1,4 @@
-# This file is to give a simple explain of CNN
+# to give a simple explain of CNN
 [REF-WIKI](https://en.wikipedia.org/wiki/Convolution)
 [REF-Mediumblog](https://pavisj.medium.com/convolutions-and-backpropagations-46026a8f5d2c)
 
@@ -29,46 +29,15 @@ O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22}
 \end{align}
 ```
 
-# what if there is more than one channel?
+# What if there is more than one channel?
 Sum them up!
 
 ![multi_channel](./imgs/cnn_multi_channel.drawio.png)
 
 
-# Image to cols
-[REF](https://www.mo4tech.com/high-performance-convolution-computing-img2col-principle-explained.html)
-
-Can we convert convolution into matrix dot operation? ! **Image to cols**.
-
-![img2cols](./imgs/img2cols.jpeg)
-
-Now, we can use dot operation to calculate cnn convolution!. 
-
-From this figure, given a matrix [N,C,H,W] and filter [K,K] we can get the resolution of converted matrix:
-
-
-Colum size:
-```math 
-  W' = C * K * K
-```
-
-Row size:
-```math
-  H' = N * (\frac{(W - K + P)}{S}+1) *（\frac{(H - K + P)}{S}+1）
-```
-
-In this context:
-+ N is the number of samples.
-+ C is the number of channels.
-+ H is the height of the input matrix.
-+ W is the width of the input matrix.
-+ K is the size of the filter.
-+ P is the padding applied to the input matrix.
-+ S is the stride of the filter.
-
-
-
 # Back propagation
+## L to F
+### When stride = 1
 Let's compute the effect of $F_{11}$ on O:
 
 ```math
@@ -158,6 +127,15 @@ O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
 We can see it is a convolution operation!
 ![partial_L_F](./imgs/partial_L_F.png)
 
+### When stride is not 1
+
+What if stride = 2 ? **Fill 0!!!**
+![conv_strid_2](./imgs/conv_stride_2.drawio.png)
+
+It is a stride = 1 convolution again！
+
+
+## L to X
 
 Now how to compute $\frac{\partial{L}}{\partial{O}}$?
 
@@ -233,3 +211,52 @@ It actually is a convolution operation! Here is the compelet format:
 
 
 ![full conv](./imgs/full_conv.drawio.png)
+
+
+
+# A 3 layer CNN
+
+Now assuming the input is NCHW,
++ N: batch size 
++ C: Channel
++ H: height 
++ W: width 
+
+INPUT: N: 256, C:3, H:28, W:28
+CONV: Kernel 3, stride 2, padding 1, 3 channel for each filter,  32 filters
+O1: 256 * 32 * (28+2*1-2)/2 + 1 = 15 * 15
+
+Img2cols(INPUT):
+
+```math
+ [256 * 15 * 15][3 * 3 * C]
+```
+
+dot op:
+
+```math
+  [256 * 15 * 15][3 * 3 * C] \cdot [3*3*C][32]
+```
+
+get:
+
+```math
+  [256 * 15 * 15][32]
+```
+
+which is N*HW*C.
+
+And this layer backpropagtion should be:
+
+For filter:
+
+```math
+
+\frac{\partial{L}}{\partial{F}} = \text{input conv } \frac{\partial{L}}{\partial{O}}
+
+```
+<!-- 256 * C * 28 * 28 -->
+<!-- 256 * 32 * 15 * 15 -->
+<!-- C * 3 * 3 -->
+<!--  O: (28+2*1-15)/2+1 = 8 -->
+<!--  -->
