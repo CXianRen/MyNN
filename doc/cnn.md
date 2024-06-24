@@ -93,43 +93,29 @@ Similary we can get that for $F_{12}, F_{21}, F_{22}$:
 O_{11} &= X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
 O_{12} &= X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
 O_{21} &= X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
-O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
+O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22}
 \end{align}
 ```
 
 
 ``` math
 \begin{align}
-\frac{\partial{L}}{\partial{F_{11}}} &= 
-\frac{\partial{L}}{\partial{O_{11}}} X_{11} + 
-\frac{\partial{L}}{\partial{O_{12}}} X_{12} +
-\frac{\partial{L}}{\partial{O_{21}}} X_{21} +
-\frac{\partial{L}}{\partial{O_{22}}} X_{22} \\
-\frac{\partial{L}}{\partial{F_{12}}} &= 
-\frac{\partial{L}}{\partial{O_{11}}} X_{12} + 
-\frac{\partial{L}}{\partial{O_{12}}} X_{13} +
-\frac{\partial{L}}{\partial{O_{21}}} X_{22} +
-\frac{\partial{L}}{\partial{O_{22}}} X_{23} \\
-\frac{\partial{L}}{\partial{F_{21}}} &= 
-\frac{\partial{L}}{\partial{O_{11}}} X_{21} + 
-\frac{\partial{L}}{\partial{O_{12}}} X_{22} +
-\frac{\partial{L}}{\partial{O_{21}}} X_{31} +
-\frac{\partial{L}}{\partial{O_{22}}} X_{32} \\
-\frac{\partial{L}}{\partial{F_{22}}} &= 
-\frac{\partial{L}}{\partial{O_{11}}} X_{22} + 
-\frac{\partial{L}}{\partial{O_{12}}} X_{23} +
-\frac{\partial{L}}{\partial{O_{21}}} X_{32} +
-\frac{\partial{L}}{\partial{O_{22}}} X_{33}
+\frac{\partial{L}}{\partial{F_{11}}} &= \frac{\partial{L}}{\partial{O_{11}}} X_{11} + \frac{\partial{L}}{\partial{O_{12}}} X_{12} + \frac{\partial{L}}{\partial{O_{21}}} X_{21} + \frac{\partial{L}}{\partial{O_{22}}} X_{22} \\
+\frac{\partial{L}}{\partial{F_{12}}} &= \frac{\partial{L}}{\partial{O_{11}}} X_{12} + \frac{\partial{L}}{\partial{O_{12}}} X_{13} + \frac{\partial{L}}{\partial{O_{21}}} X_{22} + \frac{\partial{L}}{\partial{O_{22}}} X_{23} \\
+\frac{\partial{L}}{\partial{F_{21}}} &= \frac{\partial{L}}{\partial{O_{11}}} X_{21} + \frac{\partial{L}}{\partial{O_{12}}} X_{22} + \frac{\partial{L}}{\partial{O_{21}}} X_{31} + \frac{\partial{L}}{\partial{O_{22}}} X_{32} \\
+\frac{\partial{L}}{\partial{F_{22}}} &= \frac{\partial{L}}{\partial{O_{11}}} X_{22} + \frac{\partial{L}}{\partial{O_{12}}} X_{23} + \frac{\partial{L}}{\partial{O_{21}}} X_{32} + \frac{\partial{L}}{\partial{O_{22}}} X_{33}
 \end{align}
 
 ```
 
 We can see it is a convolution operation!
+
 ![partial_L_F](./imgs/partial_L_F.png)
 
 ### When stride is not 1
 
 What if stride = 2 ? **Fill 0!!!**
+
 ![conv_strid_2](./imgs/conv_stride_2.drawio.png)
 
 It is a stride = 1 convolution again！
@@ -159,7 +145,7 @@ Then, how?
 O_{11} &= X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\
 O_{12} &= X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\
 O_{21} &= X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\
-O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\
+O_{22} &= X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22}
 \end{align}
 ```
 
@@ -168,42 +154,15 @@ Thus:
 ```math 
 
 \begin{align}
-
-\frac{\partial{L}}{\partial{X_{11}}}
-&=  \frac{\partial{L}}{\partial{O_{11}}} * F_{11}  \\
-
-
-\frac{\partial{L}}{\partial{X_{12}}} 
-&=  \frac{\partial{L}}{\partial{O_{11}}} * F_{12}  + 
-\frac{\partial{L}}{\partial{O_{12}}} * F_{11} \\
-
-\frac{\partial{L}}{\partial{X_{13}}} 
-&= \frac{\partial{L}}{\partial{O_{12}}} * F_{12}  \\
-
-\frac{\partial{L}}{\partial{X_{21}}} 
-&= \frac{\partial{L}}{\partial{O_{11}}} * F_{21}  +
-\frac{\partial{L}}{\partial{O_{21}}} * F_{11} \\
-
-\frac{\partial{L}}{\partial{X_{22}}} 
-&= \frac{\partial{L}}{\partial{O_{11}}} * F_{22} +
-\frac{\partial{L}}{\partial{O_{12}}} * F_{21} +
-\frac{\partial{L}}{\partial{O_{21}}} * F_{12} +
-\frac{\partial{L}}{\partial{O_{22}}} * F_{11} \\
-
-\frac{\partial{L}}{\partial{X_{23}}} 
-&= \frac{\partial{L}}{\partial{O_{12}}} * F_{22} + 
-\frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
-
-\frac{\partial{L}}{\partial{X_{31}}}
-&=  \frac{\partial{L}}{\partial{O_{21}}} * F_{21} \\
-
-\frac{\partial{L}}{\partial{X_{32}}}
-&=  \frac{\partial{L}}{\partial{O_{21}}} * F_{22} + 
-\frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
-
-\frac{\partial{L}}{\partial{X_{33}}}
-&= \frac{\partial{L}}{\partial{O_{22}}} * F_{22}
-
+\frac{\partial{L}}{\partial{X_{11}}} &=  \frac{\partial{L}}{\partial{O_{11}}} * F_{11}  \\
+\frac{\partial{L}}{\partial{X_{12}}} &=  \frac{\partial{L}}{\partial{O_{11}}} * F_{12} + \frac{\partial{L}}{\partial{O_{12}}} * F_{11} \\
+\frac{\partial{L}}{\partial{X_{13}}} &= \frac{\partial{L}}{\partial{O_{12}}} * F_{12}  \\
+\frac{\partial{L}}{\partial{X_{21}}} &= \frac{\partial{L}}{\partial{O_{11}}} * F_{21} + \frac{\partial{L}}{\partial{O_{21}}} * F_{11} \\
+\frac{\partial{L}}{\partial{X_{22}}} &= \frac{\partial{L}}{\partial{O_{11}}} * F_{22} + \frac{\partial{L}}{\partial{O_{12}}} * F_{21} + \frac{\partial{L}}{\partial{O_{21}}} * F_{12} + \frac{\partial{L}}{\partial{O_{22}}} * F_{11} \\
+\frac{\partial{L}}{\partial{X_{23}}} &= \frac{\partial{L}}{\partial{O_{12}}} * F_{22} + \frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
+\frac{\partial{L}}{\partial{X_{31}}} &=  \frac{\partial{L}}{\partial{O_{21}}} * F_{21} \\
+\frac{\partial{L}}{\partial{X_{32}}} &=  \frac{\partial{L}}{\partial{O_{21}}} * F_{22} + \frac{\partial{L}}{\partial{O_{22}}} * F_{21} \\
+\frac{\partial{L}}{\partial{X_{33}}} &= \frac{\partial{L}}{\partial{O_{22}}} * F_{22}
 \end{align}
 ```
 
